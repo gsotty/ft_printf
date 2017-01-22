@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 12:54:05 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/21 17:26:10 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/01/22 12:54:15 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,9 +255,9 @@ int			check_width(t_struc *struc, const char *str, int z, int y)
 {
 	while (y < z)
 	{
-		if (ft_isnum(str[y]) == 1)
+		if ((ft_isnum(str[y]) == 1) && str[y] != 0)
 		{
-			struc->width->number = 1;
+			struc->width->number = ft_atoi((char *)str + y);
 			return (1);
 		}
 		y++;
@@ -271,7 +271,7 @@ int			check_precision(t_struc *struc, const char *str, int z, int y)
 	{
 		if (str[y] == '.')
 		{
-			struc->precision->number = 1;
+			struc->precision->number = ft_atoi((char *)str + y + 1);
 			return (1);
 		}
 		y++;
@@ -318,6 +318,32 @@ int			check_lenght(t_struc *struc, const char *str, int z, int y)
 	return (0);
 }
 
+int			width(t_struc *struc, char **buf , int len, int len_2)
+{
+	char	*tmp;
+
+	if (!(tmp = (char *)malloc(sizeof(char) * len)))
+		return (0);
+	if (struc->flag->zero == 1)
+		tmp = ft_memset(tmp, '0', len);
+	else
+		tmp = ft_memset(tmp, ' ', len);
+	if (len > len_2)
+	{
+		if (struc->flag->tiret == 1)
+		{
+			*buf = ft_strcat(*buf, tmp);
+			struc->flag->tiret = 0;
+		}
+		else
+		{
+			
+		}
+	}
+	struc->width->number = 0;
+	return (len - len_2);
+}
+
 int			write_buf(t_struc *struc, char **buf, int z, va_list ap)
 {
 	int		x;
@@ -330,10 +356,13 @@ int			write_buf(t_struc *struc, char **buf, int z, va_list ap)
 	tmp = NULL;
 	if ((tmp = (char *)malloc(sizeof(char) * 10)) == NULL)
 		return (0);
+	ft_putnbr(struc->width->number);
+	ft_putstr("\n");
 	if (struc->specifier->pourcent == 1)
 	{
 		struc->specifier->pourcent = 0;
 		*buf = ft_strcat(*buf, "%");
+		width(struc, buf, struc->width->number, 1);
 		z++;
 		return (z);
 	}

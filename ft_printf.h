@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 10:40:26 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/21 17:04:28 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/01/22 14:15:43 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ char				*ft_unsigned_itoa_base(unsigned int n, int base);
 char				*ft_unsigned_itoa_base_m(unsigned int n, int base);
 char				*ft_long_itoa_base(long n, int base);
 char				*ft_unsigned_long_itoa_base(unsigned long n, int base);
+char				*remalloc(char *dest, int len_f);
 
 #endif
