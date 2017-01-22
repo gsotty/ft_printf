@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 12:54:05 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/22 12:54:15 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/01/22 14:24:28 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,75 +31,77 @@ int			cont_pour(const char *str)
 	return (cont);
 }
 
-/*char		*after_diese(int *x, char str, char *buf, va_list ap)
-{
-	char	*tmp;
-	int		len;
-
-	len = ft_strlen(buf);
-	if (str == 'c')
-	{
-		tmp = ft_strdup(buf);
-		buf = ft_memalloc(len + 2);
-		buf = ft_memcpy(buf, tmp, len);
-		buf[len] = (char)va_arg(ap, int);
-		buf[len + 1] = '\0';
-		*x = ft_strlen(buf);
-		return (buf);
-	}
-	if (str == 'o')
-	{
-		buf = ft_strjoin(buf, ft_itoa_base(va_arg(ap, unsigned int), 8));
-		*x = ft_strlen(buf);
-		return (buf);
-	}
-	if (str == 'x')
-	{
-		buf = ft_strjoin(buf, ft_unsigned_itoa_base(va_arg(ap,
-						unsigned int), 16));
-		*x = ft_strlen(buf);
-		return (buf);
-	}
-	if (str == 'X')
-	{
-		buf = ft_strjoin(buf, ft_unsigned_itoa_base_m(va_arg(ap,
-						unsigned int), 16));
-		*x = ft_strlen(buf);
-		return (buf);
-	}
-	if (str == 'd')
-	{
-		buf = ft_strjoin(buf, ft_itoa(va_arg(ap, int)));
-		*x = ft_strlen(buf);
-		return (buf);
-	}
-	if (str == 'u')
-	{
-		buf = ft_strjoin(buf, ft_unsigned_itoa(va_arg(ap, unsigned int)));
-		*x = ft_strlen(buf);
-		return (buf);
-	}
-	if (str == 'i')
-	{
-		buf = ft_strjoin(buf, ft_itoa(va_arg(ap, int)));
-		*x = ft_strlen(buf);
-		return (buf);
-	}
-	if (str == 's')
-	{
-		buf = ft_strjoin(buf, va_arg(ap, char *));
-		*x = ft_strlen(buf);
-		return (buf);
-	}
-	if (str == 'p')
-	{
-		buf = ft_strjoin(buf, ft_strjoin("0x", ft_itoa_base(va_arg(ap,
-							int), 16)));
-		*x = ft_strlen(buf);
-		return (buf);
-	}
-	return (NULL);
-}*/
+/*
+** char		*after_diese(int *x, char str, char *buf, va_list ap)
+**  {
+**  	char	*tmp;
+**  	int		len;
+**
+**  	len = ft_strlen(buf);
+**  	if (str == 'c')
+**  	{
+**  		tmp = ft_strdup(buf);
+**  		buf = ft_memalloc(len + 2);
+**  		buf = ft_memcpy(buf, tmp, len);
+**  		buf[len] = (char)va_arg(ap, int);
+**  		buf[len + 1] = '\0';
+**  		*x = ft_strlen(buf);
+**  		return (buf);
+**  	}
+**  	if (str == 'o')
+**  	{
+**  		buf = ft_strjoin(buf, ft_itoa_base(va_arg(ap, unsigned int), 8));
+**  		*x = ft_strlen(buf);
+**  		return (buf);
+**  	}
+**  	if (str == 'x')
+**  	{
+**  		buf = ft_strjoin(buf, ft_unsigned_itoa_base(va_arg(ap,
+**  						unsigned int), 16));
+**  		*x = ft_strlen(buf);
+**  		return (buf);
+**  	}
+**  	if (str == 'X')
+**  	{
+**  		buf = ft_strjoin(buf, ft_unsigned_itoa_base_m(va_arg(ap,
+**  						unsigned int), 16));
+**  		*x = ft_strlen(buf);
+**  		return (buf);
+**  	}
+**  	if (str == 'd')
+**  	{
+**  		buf = ft_strjoin(buf, ft_itoa(va_arg(ap, int)));
+**  		*x = ft_strlen(buf);
+**  		return (buf);
+**  	}
+**  	if (str == 'u')
+**  	{
+**  		buf = ft_strjoin(buf, ft_unsigned_itoa(va_arg(ap, unsigned int)));
+**  		*x = ft_strlen(buf);
+**  		return (buf);
+**  	}
+**  	if (str == 'i')
+**  	{
+**  		buf = ft_strjoin(buf, ft_itoa(va_arg(ap, int)));
+**  		*x = ft_strlen(buf);
+**  		return (buf);
+**  	}
+**  	if (str == 's')
+**  	{
+**  		buf = ft_strjoin(buf, va_arg(ap, char *));
+**  		*x = ft_strlen(buf);
+**  		return (buf);
+**  	}
+**  	if (str == 'p')
+**  	{
+**  		buf = ft_strjoin(buf, ft_strjoin("0x", ft_itoa_base(va_arg(ap,
+**  							int), 16)));
+**  		*x = ft_strlen(buf);
+**  		return (buf);
+**  	}
+**  	return (NULL);
+**  }
+*/
 
 t_struc		*ft_malloc_struct(void)
 {
@@ -318,7 +320,7 @@ int			check_lenght(t_struc *struc, const char *str, int z, int y)
 	return (0);
 }
 
-int			width(t_struc *struc, char **buf , int len, int len_2)
+int			width(t_struc *struc, char **buf, int len, int len_2)
 {
 	char	*tmp;
 
@@ -337,7 +339,6 @@ int			width(t_struc *struc, char **buf , int len, int len_2)
 		}
 		else
 		{
-			
 		}
 	}
 	struc->width->number = 0;
@@ -509,9 +510,9 @@ void		test(const char *str, ...)
 int			main(int argc, char **argv)
 {
 	printf("printf: ");
-	printf(argv[1], 'o',ft_atoi(argv[2]), argv[3]);
+	printf(argv[1], 'o', ft_atoi(argv[2]), argv[3]);
 	printf("\n");
 	ft_putstr("ft_printf: ");
-	test((const char *)argv[1], 'o',ft_atoi(argv[2]), argv[3]);
+	test((const char *)argv[1], 'o', ft_atoi(argv[2]), argv[3]);
 	return (0);
 }
