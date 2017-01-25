@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 10:40:26 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/22 14:15:43 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/01/23 17:39:28 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,19 @@ typedef struct		s_specifier
 
 typedef struct		s_struc
 {
-	t_flag			*flag;
-	t_width			*width;
-	t_precision		*precision;
-	t_lenght		*lenght;
-	t_specifier		*specifier;
+	t_flag			flag;
+	t_width			width;
+	t_precision		precision;
+	t_lenght		lenght;
+	t_specifier		specifier;
 }					t_struc;
+           
+typedef struct		s_len
+{
+	int				len_str;
+	int				pos_buf;
+	int				pos_str;
+}					t_len;
 
 char				*ft_itoa_base(int n, int base);
 char				*ft_unsigned_itoa(unsigned int n);
@@ -78,6 +85,6 @@ char				*ft_unsigned_itoa_base(unsigned int n, int base);
 char				*ft_unsigned_itoa_base_m(unsigned int n, int base);
 char				*ft_long_itoa_base(long n, int base);
 char				*ft_unsigned_long_itoa_base(unsigned long n, int base);
-char				*remalloc(char *dest, int len_f);
+char				*ft_remalloc(char *dest, int len_f);
 
 #endif
