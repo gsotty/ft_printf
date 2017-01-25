@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 10:40:26 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/23 17:39:28 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/01/25 09:47:31 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,12 @@ char				*ft_unsigned_itoa_base_m(unsigned int n, int base);
 char				*ft_long_itoa_base(long n, int base);
 char				*ft_unsigned_long_itoa_base(unsigned long n, int base);
 char				*ft_remalloc(char *dest, int len_f);
+int					check_specifier(t_struc *struc, const char *str, int z);
+int					check_flag(t_struc *struc, const char *str, int z, int y);
+int					check_width(t_struc *struc, const char *str, int z, int y);
+int					check_precision(t_struc *struc, const char *str,
+		int z, int y);
+int					check_lenght(t_struc *struc, const char *str,
+		int z, int y);
 
 #endif
