@@ -6,55 +6,12 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 12:54:05 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/25 09:48:22 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/01/27 17:05:24 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "ft_printf.h"
-
-int			cont_pour(const char *str)
-{
-	int		x;
-	int		cont;
-
-	x = 0;
-	cont = 0;
-	while (str[x] != 0)
-	{
-		if (str[x] == '%')
-			cont++;
-		x++;
-	}
-	return (cont);
-}
-
-int			width(t_struc *struc, char **buf, int len, int len_2)
-{
-	char	*tmp;
-
-	if (!(tmp = (char *)malloc(sizeof(char) * len)))
-		return (0);
-	if (struc->flag.zero == 1)
-		tmp = ft_memset(tmp, '0', len);
-	else
-		tmp = ft_memset(tmp, ' ', len);
-	if (len > len_2)
-	{
-		if (struc->flag.tiret == 1)
-		{
-			*buf = ft_strcat(*buf, tmp);
-			struc->flag.tiret = 0;
-		}
-		else
-		{
-		}
-	}
-	struc->width.number = 0;
-	return (len - len_2);
-}
+#include <stdio.h>
 
 /*
 ** fontion qui va remplire le buf pour chaque '%' qui prend en paramaitre la
@@ -62,141 +19,94 @@ int			width(t_struc *struc, char **buf, int len, int len_2)
 ** permait de lire les multi arg
 */
 
-int			write_pourcent(t_struc *struc, char **buf, t_len *len, va_list ap)
-{
-	char	*tmp;
-	char	*tmp_buf;
-
-	if (!(tmp_buf = (char *)malloc(sizeof(char) * len->len_str)))
-		return (0);
-	if (struc->width.number > 0)
-	{
-		if (!(tmp = (char *)malloc(sizeof(char) * struc->width.number)))
-			return (0);
-		if (struc->flag.zero == 1)
-		{
-			tmp = ft_memset(tmp, '0', struc->width.number);
-			struc->flag.zero = 0;
-		}
-		else
-			tmp = ft_memset(tmp, ' ', struc->width.number);
-		tmp[struc->width.number] = '%';
-		tmp[struc->width.number + 1] = '\0';
-		tmp_buf = ft_memcpy(tmp_buf, *buf, len->len_str);
-		*buf = ft_remalloc(*buf, len->len_str + struc->width.number);
-		*buf = ft_memcpy(*buf, tmp_buf, len->len_str);
-		*buf = ft_strcat(*buf, tmp);
-		len->pos_buf += 3;
-		len->len_str += struc->width.number;
-	}
-	else
-	{
-		if (!(tmp = (char *)malloc(sizeof(char) * 2)))
-			return (0);
-		tmp[0] = '%';
-		tmp[1] = '\0';
-		tmp_buf = ft_memcpy(tmp_buf, *buf, len->pos_buf);
-		*buf = ft_remalloc(*buf, len->len_str + 2);
-		*buf = ft_memcpy(*buf, tmp_buf, len->len_str);
-		*buf = ft_strcat(*buf, tmp);
-		len->pos_buf += 1;
-		len->len_str += 1;
-	}
-	return (1);
-}
-
 int			write_buf(t_struc *struc, char **buf, t_len *len, va_list ap)
 {
-	int		tmp_int_s;
-	char	*tmp_char_s;
 	char	*tmp;
 
 	tmp = NULL;
-	tmp_int_s = 0;
-	if (struc->specifier.pourcent == 1)
+	if (struc->specifier.s == 1)
 	{
-		write_pourcent(struc, buf, len, ap);
-		struc->specifier.pourcent = 0;
+		write_s(struc, buf, len, ap);
+		len->pos_buf = ft_strlen(*buf);
+		return (1);
+	}
+	if (struc->specifier.sm == 1) // nn fait
+	{
+		return (1);
+	}
+	if (struc->specifier.p == 1)
+	{
+		write_p(struc, buf, len, ap);
+		return (1);
+	}
+	if (struc->specifier.d == 1)
+	{
+		write_d_and_i(struc, buf, len, ap);
+		len->pos_buf = ft_strlen(*buf);
+		return (1);
+	}
+	if (struc->specifier.dm == 1)
+	{
+		write_dm(struc, buf, len, ap);
+		len->pos_buf = ft_strlen(*buf);
+		return (1);
+	}
+	if (struc->specifier.i == 1)
+	{
+		write_d_and_i(struc, buf, len, ap);
 		len->pos_buf = ft_strlen(*buf);
 		return (1);
 	}
 	if (struc->specifier.o == 1)
 	{
-		struc->specifier.o = 0;
-		*buf = ft_strjoin(*buf, ft_unsigned_itoa_base(va_arg(ap,
-						unsigned int), 8));
+		write_o(struc, buf, len, ap);
 		len->pos_buf = ft_strlen(*buf);
 		return (1);
 	}
 	if (struc->specifier.om == 1)
 	{
-		struc->specifier.om = 0;
-		*buf = ft_strjoin(*buf, ft_unsigned_long_itoa_base(va_arg(ap,
-						unsigned long), 8));
-		len->pos_buf = ft_strlen(*buf);
-		return (1);
-	}
-	if (struc->specifier.c == 1)
-	{
-		struc->specifier.c = 0;
-		tmp[0] = (unsigned char)va_arg(ap, int);
-		*buf = ft_strcat(*buf, tmp);
-		len->pos_buf = ft_strlen(*buf);
-		return (1);
-	}
-	if (struc->specifier.x == 1)
-	{
-		struc->specifier.x = 0;
-		*buf = ft_strjoin(*buf, ft_unsigned_itoa_base(va_arg(ap,
-						unsigned int), 16));
-		len->pos_buf = ft_strlen(*buf);
-		return (1);
-	}
-	if (struc->specifier.xm == 1)
-	{
-		struc->specifier.xm = 0;
-		*buf = ft_strjoin(*buf, ft_unsigned_itoa_base_m(va_arg(ap,
-						unsigned int), 16));
-		len->pos_buf = ft_strlen(*buf);
-		return (1);
-	}
-	if (struc->specifier.d == 1 || struc->specifier.i == 1)
-	{
-		tmp_int_s = va_arg(ap, int);
-		if (struc->flag.plus == 1)
-			if (tmp_int_s > 0)
-				tmp[0] = '+';
-		struc->specifier.i = 0;
-		struc->specifier.d = 0;
-		*buf = ft_remalloc(*buf, len->len_str + ft_strlen(ft_itoa(tmp_int_s)));
-		*buf = ft_strcat(*buf, ft_itoa(tmp_int_s));
+		write_om(struc, buf, len, ap);
 		len->pos_buf = ft_strlen(*buf);
 		return (1);
 	}
 	if (struc->specifier.u == 1)
 	{
-		struc->specifier.u = 0;
-		*buf = ft_strjoin(*buf, ft_unsigned_itoa(va_arg(ap, unsigned int)));
+		write_u(struc, buf, len, ap);
 		len->pos_buf = ft_strlen(*buf);
 		return (1);
 	}
-	if (struc->specifier.s == 1)
+	if (struc->specifier.um == 1)
 	{
-		tmp_char_s = va_arg(ap, char *);
-		struc->specifier.s = 0;
-		*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp_char_s));
-		*buf = ft_strcat(*buf, tmp_char_s);
+		write_um(struc, buf, len, ap);
+		return (1);
+	}
+	if (struc->specifier.x == 1)
+	{
+		write_x(struc, buf, len, ap);
 		len->pos_buf = ft_strlen(*buf);
 		return (1);
 	}
-	if (struc->specifier.p == 1)
+	if (struc->specifier.xm == 1)
 	{
-		tmp = "0x";
-		tmp_char_s = ft_long_itoa_base((long)va_arg(ap, void *), 16);
-		tmp_char_s = ft_strjoin("0x", tmp_char_s);
-		struc->specifier.p = 0;
-		*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp_char_s));
-		*buf = ft_strcat(*buf, tmp_char_s);
+		write_xm(struc, buf, len, ap);
+		len->pos_buf = ft_strlen(*buf);
+		return (1);
+	}
+	if (struc->specifier.c == 1) // nn fait
+	{
+		write_c(struc, buf, len, ap);
+	//	tmp[0] = (unsigned char)va_arg(ap, int);
+	//	*buf = ft_strcat(*buf, tmp);
+		len->pos_buf = ft_strlen(*buf);
+		return (1);
+	}
+	if (struc->specifier.cm == 1) // nn fait
+	{
+		return (1);
+	}
+	if (struc->specifier.pourcent == 1)
+	{
+		write_pourcent(struc, buf, len);
 		len->pos_buf = ft_strlen(*buf);
 		return (1);
 	}
@@ -231,12 +141,13 @@ char		*verif_line(t_len *len, const char *str, char *buf, va_list ap)
 	t_struc	struc;
 
 	y = 0;
-	ft_bzero(&struc, sizeof(t_struc));
 	while (str[len->pos_str] != '\0')
 	{
 		if (str[len->pos_str] == '%' && (y = len->pos_str + 1))
 		{
-			if (!(len->pos_str = check_specifier(&struc, str, len->pos_str + 1)))
+			ft_bzero(&struc, sizeof(t_struc));
+			if (!(len->pos_str = check_specifier(&struc, str,
+							len->pos_str + 1)))
 				return (NULL);
 			verif_line_2(&struc, str, len->pos_str, y);
 			write_buf(&struc, &buf, len, ap);
@@ -244,14 +155,9 @@ char		*verif_line(t_len *len, const char *str, char *buf, va_list ap)
 		}
 		else
 		{
+			buf = ft_remalloc(buf, len->pos_buf + 1);
 			buf[len->pos_buf++] = str[len->pos_str++];
 		}
-//		ft_putnbr(len->pos_buf);
-//		ft_putstr("\n");
-//		ft_putstr((char *)str + len->pos_buf);
-//		ft_putstr("\n");
-//		ft_putstr(buf);
-//		ft_putstr("\n");
 	}
 	return (buf);
 }
@@ -281,10 +187,12 @@ void		test(const char *str, ...)
 
 int			main(int argc, char **argv)
 {
-	printf("printf: ");
-	printf(argv[1], ft_atoi(argv[2]), argv[3]);
+	if (argc == 1)
+		return (0);
+	printf("printf:\t\t");
+	printf(argv[1], ft_atoi(argv[2]), 'h');
 	printf("\n");
-	ft_putstr("ft_printf: ");
-	test((const char *)argv[1], ft_atoi(argv[2]), argv[3]);
+	ft_putstr("ft_printf:\t");
+	test((const char *)argv[1], ft_atoi(argv[2]), 'h');
 	return (0);
 }

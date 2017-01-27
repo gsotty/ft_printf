@@ -6,13 +6,13 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 09:45:35 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/25 09:46:43 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/01/27 13:19:58 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	check_lenght_1(t_struc *struc, const char *str, int z, int y)
+static int	check_lenght_1(t_struc *struc, const char *str, int y)
 {
 	if (str[y] == 'l' && str[y + 1] == 'l')
 	{
@@ -51,7 +51,7 @@ int			check_lenght(t_struc *struc, const char *str, int z, int y)
 			struc->lenght.l = 1;
 			return (1);
 		}
-		if ((check_lenght_1(struc, str, z, y)) != 0)
+		if ((check_lenght_1(struc, str, y)) != 0)
 			return (1);
 		y++;
 	}

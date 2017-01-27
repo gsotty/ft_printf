@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 09:43:17 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/25 09:45:09 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/01/26 15:33:27 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ int	check_precision(t_struc *struc, const char *str, int z, int y)
 		}
 		y++;
 	}
+	struc->precision.number = -1;
 	return (0);
 }
