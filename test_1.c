@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 12:54:05 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/27 17:05:24 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/01/27 17:20:08 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int			write_buf(t_struc *struc, char **buf, t_len *len, va_list ap)
 		len->pos_buf = ft_strlen(*buf);
 		return (1);
 	}
-	if (struc->specifier.sm == 1) // nn fait
+	if (struc->specifier.sm == 1)
 	{
 		return (1);
 	}
@@ -92,15 +92,13 @@ int			write_buf(t_struc *struc, char **buf, t_len *len, va_list ap)
 		len->pos_buf = ft_strlen(*buf);
 		return (1);
 	}
-	if (struc->specifier.c == 1) // nn fait
+	if (struc->specifier.c == 1)
 	{
 		write_c(struc, buf, len, ap);
-	//	tmp[0] = (unsigned char)va_arg(ap, int);
-	//	*buf = ft_strcat(*buf, tmp);
 		len->pos_buf = ft_strlen(*buf);
 		return (1);
 	}
-	if (struc->specifier.cm == 1) // nn fait
+	if (struc->specifier.cm == 1)
 	{
 		return (1);
 	}

@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:38:22 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/27 15:54:07 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/01/27 17:18:27 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,5 @@ int			write_s(t_struc *struc, char **buf, t_len *len, va_list ap)
 	len->pos_buf += ft_strlen(tmp);
 	ft_remalloc(*buf, len->len_str);
 	*buf = ft_strcat(*buf, tmp);
-	//free(tmp);
 	return (0);
 }

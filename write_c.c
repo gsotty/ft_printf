@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 16:53:32 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/27 17:13:40 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/01/27 17:18:54 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*ft_largeur(t_struc *struc, char *tmp)
 	if (struc->flag.zero && (struc->flag.tiret == 0) &&
 			(struc->precision.number == -1))
 	{
-	tmp_spaces = ft_memset(tmp_spaces, 48, struc->width.number -
+		tmp_spaces = ft_memset(tmp_spaces, 48, struc->width.number -
 				ft_strlen(tmp));
 	}
 	else
