@@ -3,39 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tapperce <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/06 10:28:48 by gsotty            #+#    #+#             */
-/*   Updated: 2016/11/12 17:12:16 by gsotty           ###   ########.fr       */
+/*   Created: 2016/11/18 17:11:58 by tapperce          #+#    #+#             */
+/*   Updated: 2016/11/28 11:34:06 by tapperce         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <stdlib.h>
+#include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	int		x;
-	int		lens1;
-	int		lens2;
-	char	*tab;
+	char	*str;
+	int		i;
+	int		j;
 
-	x = -1;
-	if (s1 == NULL || s2 == NULL)
+	i = 0;
+	j = 0;
+	if (!s1 || !s2)
 		return (NULL);
-	lens1 = ft_strlen(s1);
-	lens2 = ft_strlen(s2);
-	if ((tab = (char *)malloc(sizeof(char) * (lens1 + lens2) + 1)) == NULL)
+	str = ft_strnew(ft_strlen((char*)s1) + ft_strlen((char*)s2) + 1);
+	if (!str)
 		return (NULL);
-	while (s1[++x] != '\0')
-		tab[x] = s1[x];
-	lens1 = 0;
-	while (s2[lens1] != '\0')
+	while (s1[i])
 	{
-		tab[x] = s2[lens1];
-		lens1++;
-		x++;
+		str[i] = s1[i];
+		i++;
 	}
-	tab[x] = '\0';
-	return (tab);
+	while (s2[j])
+	{
+		str[i] = s2[j];
+		i++;
+		j++;
+	}
+	return (str);
 }

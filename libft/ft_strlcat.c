@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tapperce <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/04 15:54:36 by gsotty            #+#    #+#             */
-/*   Updated: 2016/11/10 15:45:50 by gsotty           ###   ########.fr       */
+/*   Created: 2016/11/23 14:01:06 by tapperce          #+#    #+#             */
+/*   Updated: 2016/11/23 14:01:39 by tapperce         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ size_t	ft_strlcat(char *dest, const char *src, size_t n)
 	}
 	if (len < n)
 		dest[x] = '\0';
-	return (len + ft_strlen(src));
+	return (len + ft_strlen((char *)src));
 }

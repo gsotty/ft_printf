@@ -3,41 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tapperce <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/06 10:56:23 by gsotty            #+#    #+#             */
-/*   Updated: 2016/11/12 17:20:23 by gsotty           ###   ########.fr       */
+/*   Created: 2016/11/18 17:56:40 by tapperce          #+#    #+#             */
+/*   Updated: 2016/11/28 11:32:00 by tapperce         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdlib.h>
 
-char	*ft_strtrim(char const *s)
+char	*ft_strtrim(const char *s)
 {
-	int		x;
-	int		y;
-	int		len;
-	char	*tab;
+	unsigned int		start;
+	int					end;
+	int					i;
+	char				*str;
 
-	x = 0;
-	y = 0;
-	if (s == NULL)
+	i = 0;
+	if (!s)
 		return (NULL);
-	len = ft_strlen(s);
-	while ((s[x] == ' ' || s[x] == ',' || s[x] == '\n' || s[x] == '\t') && s[x])
-		x++;
-	while ((s[len - 1] == ' ' || s[len - 1] == ',' || s[len - 1] == '\n' ||
-			s[len - 1] == '\t') && x < len)
-		len--;
-	if ((tab = (char *)malloc(sizeof(char) * (len - x) + 1)) == NULL)
+	while (s[i] == ' ' || s[i] == '\n' || s[i] == '\t')
+		i++;
+	start = i;
+	while (s[i])
+		i++;
+	i--;
+	while (s[i] == ' ' || s[i] == '\n' || s[i] == '\t')
+		i--;
+	end = i;
+	if (start == ft_strlen((char*)s))
+		return (str = ft_strnew(1));
+	str = ft_strsub(s, start, end - start + 1);
+	if (!str)
 		return (NULL);
-	while (x < len)
-	{
-		tab[y] = s[x];
-		x++;
-		y++;
-	}
-	tab[y] = '\0';
-	return (tab);
+	str[end - start + 1] = '\0';
+	return (str);
 }

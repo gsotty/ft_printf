@@ -3,39 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tapperce <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/04 09:01:21 by gsotty            #+#    #+#             */
-/*   Updated: 2016/11/13 11:03:59 by gsotty           ###   ########.fr       */
+/*   Created: 2016/11/23 14:08:14 by tapperce          #+#    #+#             */
+/*   Updated: 2016/11/23 14:08:20 by tapperce         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdlib.h>
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	size_t		x;
-	char		*tabdest;
-	const char	*tabsrc;
+	unsigned int	i;
+	unsigned int	j;
 
-	x = 0;
-	tabdest = dest;
-	tabsrc = src;
-	if (dest <= src || src >= (dest + n))
-	{
-		while (x < n)
+	i = 0;
+	j = n - 1;
+	if (src < dest)
+		while ((int)j >= 0)
 		{
-			tabdest[x] = tabsrc[x];
-			x++;
+			((char*)dest)[j] = ((char*)src)[j];
+			j--;
 		}
-	}
 	else
-	{
-		while (n)
+		while (i < n)
 		{
-			tabdest[n - 1] = tabsrc[n - 1];
-			n--;
+			((char*)dest)[i] = ((char*)src)[i];
+			i++;
 		}
-	}
 	return (dest);
 }

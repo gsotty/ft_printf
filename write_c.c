@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 16:53:32 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/27 17:18:54 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/02 10:03:31 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,11 @@ static char	*ft_largeur(t_struc *struc, char *tmp)
 		return (0);
 	if (struc->flag.zero && (struc->flag.tiret == 0) &&
 			(struc->precision.number == -1))
-	{
 		tmp_spaces = ft_memset(tmp_spaces, 48, struc->width.number -
 				ft_strlen(tmp));
-	}
 	else
-	{
 		tmp_spaces = ft_memset(tmp_spaces, 32, struc->width.number -
 				ft_strlen(tmp));
-	}
 	tmp_spaces[struc->width.number - ft_strlen(tmp)] = '\0';
 	if (struc->flag.tiret)
 		tmp = ft_strjoin(tmp, tmp_spaces);

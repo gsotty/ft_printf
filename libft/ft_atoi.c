@@ -3,40 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tapperce <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/14 22:15:01 by gsotty            #+#    #+#             */
-/*   Updated: 2016/11/09 10:01:48 by gsotty           ###   ########.fr       */
+/*   Created: 2016/11/14 13:49:04 by tapperce          #+#    #+#             */
+/*   Updated: 2016/11/23 13:52:02 by tapperce         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int		ft_atoi(char *str)
+int		ft_atoi(char *nptr)
 {
+	int		result;
 	int		i;
-	int		ret_atoi;
-	int		sign;
+	int		neg;
 
+	result = 0;
+	neg = 0;
 	i = 0;
-	sign = 0;
-	ret_atoi = 0;
-	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' ||
-			str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
+	while (nptr[i] == ' ' || nptr[i] == '\n' || nptr[i] == '\t' ||
+			nptr[i] == '\v' || nptr[i] == '\f' || nptr[i] == '\r')
 		i++;
-	if (str[i] == '-' || str[i] == '+')
+	if (nptr[i] == '-' || nptr[i] == '+')
 	{
-		if (str[i] == '-')
-			sign = -1;
+		if (nptr[i] == '-')
+			neg = 1;
 		i++;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
+	while (nptr[i] <= '9' && nptr[i] >= '0')
 	{
-		ret_atoi *= 10;
-		ret_atoi += (str[i] - 48);
+		result *= 10;
+		result += nptr[i] - '0';
 		i++;
 	}
-	if (sign < 0)
-		ret_atoi *= -1;
-	return (ret_atoi);
+	if (neg == 1)
+		return (-result);
+	return (result);
 }

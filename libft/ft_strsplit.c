@@ -3,73 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tapperce <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/10 16:01:14 by gsotty            #+#    #+#             */
-/*   Updated: 2016/11/12 17:13:18 by gsotty           ###   ########.fr       */
+/*   Created: 2016/11/21 11:57:18 by tapperce          #+#    #+#             */
+/*   Updated: 2016/11/28 16:44:38 by tapperce         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <stdlib.h>
+#include "libft.h"
 
-static int	ft_mot(const char *s, char c)
+char		**ft_strsplit(const char *s, char c)
 {
-	int	x;
-	int	y;
+	int		i;
+	int		j;
+	int		k;
+	char	**str;
 
-	x = 0;
-	y = 0;
-	while (*s != '\0')
-	{
-		if (y == 1 && *s == c)
-			y = 0;
-		if (y == 0 && *s != c)
+	i = -1;
+	j = 0;
+	k = 0;
+	if (!s)
+		return (NULL);
+	if (!(str = malloc(sizeof(char*) * ft_nb_word(s, c) + 1)))
+		return (NULL);
+	while (s[++i])
+		if (s[i] != c)
 		{
-			y = 1;
-			x++;
+			if (!(str[k] = malloc(sizeof(char) * ft_len_word((s + i), c) + 1)))
+				return (NULL);
+			while (s[i] != c && s[i] != '\0')
+				str[k][j++] = s[i++];
+			str[k++][j] = '\0';
+			j = 0;
+			i--;
 		}
-		s++;
-	}
-	return (x);
-}
-
-static int	ft_len_mot(const char *s, char c)
-{
-	int	len;
-
-	len = 0;
-	while (*s != c && *s != '\0')
-	{
-		len++;
-		s++;
-	}
-	return (len);
-}
-
-char		**ft_strsplit(char const *s, char c)
-{
-	char	**tab;
-	int		nbr_mot;
-	int		x;
-
-	x = 0;
-	if (s == NULL)
-		return (NULL);
-	nbr_mot = ft_mot((const char *)s, c);
-	if ((tab = (char **)malloc(sizeof(*tab) * ft_mot((const char *)s, c) + 1))
-			== NULL)
-		return (NULL);
-	while (nbr_mot--)
-	{
-		while (*s == c && *s != '\0')
-			s++;
-		tab[x] = ft_strsub((const char *)s, 0, ft_len_mot((const char *)s, c));
-		if (tab[x] == NULL)
-			return (NULL);
-		s = s + ft_len_mot(s, c);
-		x++;
-	}
-	tab[x] = NULL;
-	return (tab);
+	str[k] = 0;
+	return (str);
 }

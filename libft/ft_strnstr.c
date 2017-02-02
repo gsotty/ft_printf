@@ -3,34 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tapperce <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/04 16:57:38 by gsotty            #+#    #+#             */
-/*   Updated: 2016/11/12 17:29:28 by gsotty           ###   ########.fr       */
+/*   Created: 2016/11/14 10:43:33 by tapperce          #+#    #+#             */
+/*   Updated: 2016/11/24 18:40:43 by tapperce         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+char	*ft_strnstr(const char *big, const char *lil, size_t n)
 {
-	size_t	i;
-	int		len2;
-	char	*tabbig;
-	char	*tablittle;
+	unsigned int	i;
+	unsigned int	j;
+	unsigned int	len;
 
-	if (*little == '\0')
-		return ((char *)big);
 	i = 0;
-	tabbig = (char *)big;
-	tablittle = (char *)little;
-	len2 = ft_strlen(tablittle);
-	while (tabbig[i] != '\0' && i <= len)
+	len = ft_strlen((char*)lil);
+	if (!len)
+		return ((char*)big);
+	while (big[i] && i < n)
 	{
-		if ((ft_strncmp(tabbig + i, tablittle, len2) == 0) && (i + len2) <= len)
-		{
-			return (tabbig + i);
-		}
+		j = 0;
+		while (big[i + j] == lil[j] && big[i + j] && lil[j] && i + j < n)
+			j++;
+		if (j == len)
+			return ((char*)big + i);
 		i++;
 	}
 	return (NULL);
