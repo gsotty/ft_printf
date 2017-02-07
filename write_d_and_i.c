@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 10:42:10 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/27 13:31:38 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/07 14:12:12 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,78 @@
 
 static char	*modif_longeur(t_struc *struc, va_list ap)
 {
+	intmax_t	tmp;
+
 	if (struc->lenght.h == 1)
-		return (ft_itoa((short)va_arg(ap, intmax_t)));
+	{
+		tmp = (short)va_arg(ap, int);
+		if (tmp < 0)
+		{
+			struc->flag.negatif = 1;
+			tmp = -tmp;
+		}
+		return (ft_itoa(tmp));
+	}
 	else if (struc->lenght.hh == 1)
-		return (ft_itoa((char)va_arg(ap, intmax_t)));
+	{
+		tmp = (char)va_arg(ap, int);
+		if (tmp < 0)
+		{
+			struc->flag.negatif = 1;
+			tmp = -tmp;
+		}
+		return (ft_itoa(tmp));
+	}
 	else if (struc->lenght.l == 1)
-		return (ft_long_itoa_base((long)va_arg(ap, intmax_t), 10));
+	{
+		tmp = va_arg(ap, long);
+		if (tmp < 0)
+		{
+			struc->flag.negatif = 1;
+			tmp = -tmp;
+		}
+		return (ft_long_itoa_base((long)tmp, 10));
+	}
 	else if (struc->lenght.ll == 1)
-		return (ft_intmax_t_itoa_base((long long)va_arg(ap, intmax_t), 10));
+	{
+		tmp = va_arg(ap, long long);
+		if (tmp < 0)
+		{
+			struc->flag.negatif = 1;
+			tmp = -tmp;
+		}
+		return (ft_intmax_t_itoa_base((long long)tmp, 10));
+	}
 	else if (struc->lenght.j == 1)
-		return (ft_intmax_t_itoa_base((intmax_t)va_arg(ap, intmax_t), 10));
+	{
+		tmp = va_arg(ap, intmax_t);
+		if (tmp < 0)
+		{
+			struc->flag.negatif = 1;
+			tmp = -tmp;
+		}
+		return (ft_intmax_t_itoa_base((intmax_t)tmp, 10));
+	}
 	else if (struc->lenght.z == 1)
-		return (ft_unsigned_itoa_base((size_t)va_arg(ap, intmax_t), 10));
+	{
+		tmp = va_arg(ap, size_t);
+		if (tmp < 0)
+		{
+			struc->flag.negatif = 1;
+			tmp = -tmp;
+		}
+		return (ft_unsigned_itoa_base((size_t)tmp, 10));
+	}
 	else
-		return (ft_itoa(va_arg(ap, int)));
+	{
+		tmp = va_arg(ap, int);
+		if (tmp < 0)
+		{
+			struc->flag.negatif = 1;
+			tmp = -tmp;
+		}
+		return (ft_itoa_int_min(tmp));
+	}
 }
 
 static char	*ft_largeur(t_struc *struc, char *tmp)
@@ -65,7 +123,9 @@ static char	*ft_if_precision(t_struc *struc, char *tmp)
 		tmp_prec[struc->precision.number - ft_strlen(tmp)] = '\0';
 		tmp = ft_strjoin(tmp_prec, tmp);
 	}
-	if (struc->flag.plus == 1)
+	if (struc->flag.negatif == 1)
+		tmp = ft_strjoin("-", tmp);
+	else if (struc->flag.plus == 1)
 		tmp = ft_strjoin("+", tmp);
 	else if (struc->flag.espace == 1)
 		tmp = ft_strjoin(" ", tmp);
@@ -76,7 +136,9 @@ static char	*ft_if_precision(t_struc *struc, char *tmp)
 
 static char	*ft_if_no_precision(t_struc *struc, char *tmp)
 {
-	if (struc->flag.plus == 1)
+	if (struc->flag.negatif == 1)
+		tmp = ft_strjoin("-", tmp);
+	else if (struc->flag.plus == 1)
 		tmp = ft_strjoin("+", tmp);
 	else if (struc->flag.espace == 1)
 		tmp = ft_strjoin(" ", tmp);
@@ -92,8 +154,8 @@ int			write_d_and_i(t_struc *struc, char **buf, t_len *len, va_list ap)
 	tmp = modif_longeur(struc, ap);
 	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp));
 	if (struc->flag.zero == 1 && (struc->flag.plus == 1 || struc->flag.espace
-				== 1) && struc->width.number > 0 && struc->precision.number
-			== -1 && struc->flag.tiret == 0)
+				== 1 || struc->flag.negatif == 1) && struc->width.number > 0
+			&& struc->precision.number == -1 && struc->flag.tiret == 0)
 	{
 		struc->precision.number = struc->width.number - 1;
 		struc->width.number = 0;

@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdel.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tapperce <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/05 17:25:44 by gsotty            #+#    #+#             */
-/*   Updated: 2016/11/10 17:31:49 by gsotty           ###   ########.fr       */
+/*   Created: 2016/11/09 10:54:19 by tapperce          #+#    #+#             */
+/*   Updated: 2017/02/07 13:47:47 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <stdlib.h>
+#include "ft_printf.h"
 
-void	ft_strdel(char **as)
+char	*ft_strdup(char *src)
 {
-	if (as == NULL)
-		return ;
-	free(*as);
-	*as = NULL;
+	int		i;
+	char	*str;
+
+	i = 0;
+	str = (char*)malloc(sizeof(char) * ft_strlen(src) + 1);
+	if (!str)
+		return (NULL);
+	while (src[i] != '\0')
+	{
+		str[i] = src[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }

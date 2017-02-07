@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/31 16:45:05 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/02 09:42:17 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/07 14:01:18 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int		main(void)
 {
-	ft_printf("nous somme le %d%s\n", 31, "janvier");
+	ft_printf("@moulitest: %.d %.0d", 42, 43);
 	return (0);
 }

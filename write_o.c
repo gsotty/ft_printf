@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 11:43:59 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/27 15:16:25 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/06 15:29:51 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static char	*modif_longeur(t_struc *struc, va_list ap)
 {
 	if (struc->lenght.h == 1)
-		return (ft_unsigned_itoa_base((short)va_arg(ap, intmax_t), 8));
+		return (ft_unsigned_itoa_base((short)va_arg(ap, uintmax_t), 8));
 	else if (struc->lenght.hh == 1)
-		return (ft_unsigned_itoa_base((char)va_arg(ap, intmax_t), 8));
+		return (ft_unsigned_itoa_base((char)va_arg(ap, uintmax_t), 8));
 	else if (struc->lenght.l == 1)
 		return (ft_long_itoa_base((long)va_arg(ap, uintmax_t), 8));
 	else if (struc->lenght.ll == 1)
@@ -25,9 +25,9 @@ static char	*modif_longeur(t_struc *struc, va_list ap)
 	else if (struc->lenght.j == 1)
 		return (ft_intmax_t_itoa_base((intmax_t)va_arg(ap, uintmax_t), 8));
 	else if (struc->lenght.z == 1)
-		return (ft_unsigned_itoa_base((size_t)va_arg(ap, intmax_t), 8));
+		return (ft_unsigned_itoa_base((size_t)va_arg(ap, uintmax_t), 8));
 	else
-		return (ft_unsigned_itoa_base((unsigned int)va_arg(ap, int), 8));
+		return (ft_unsigned_itoa_base(va_arg(ap, unsigned int), 8));
 }
 
 static char	*ft_largeur(t_struc *struc, char *tmp)
@@ -86,6 +86,11 @@ int			write_o(t_struc *struc, char **buf, t_len *len, va_list ap)
 	char	*tmp;
 
 	tmp = modif_longeur(struc, ap);
+	if (ft_atoi(tmp) == 0)
+		struc->flag.diese = 0;
+	if (ft_atoi(tmp) == 0 && (struc->precision.number != -1 ||
+				struc->width.number != 0))
+		tmp[0] = '\0';
 	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp));
 	if (struc->flag.diese == 1 && struc->precision.number > 0)
 		struc->precision.number = struc->precision.number - 1;

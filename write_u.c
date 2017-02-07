@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:14:12 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/27 14:19:58 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/02 15:06:42 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*modif_longeur(t_struc *struc, va_list ap)
 	else if (struc->lenght.z == 1)
 		return (ft_unsigned_itoa_base((size_t)va_arg(ap, uintmax_t), 10));
 	else
-		return (ft_unsigned_itoa(va_arg(ap, unsigned int)));
+		return (ft_unsigned_itoa((unsigned int)va_arg(ap, unsigned int)));
 }
 
 static char	*ft_largeur(t_struc *struc, char *tmp)

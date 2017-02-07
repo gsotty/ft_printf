@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 09:58:01 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/25 12:18:49 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/02 12:09:17 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static intmax_t	ft_intlen_base(intmax_t n, int base)
 	return (i);
 }
 
-static char		ft_findchar(long value, int base)
+static char		ft_findchar(intmax_t value, int base)
 {
 	if (value % base < 10)
 		return ('0' + (value % base));

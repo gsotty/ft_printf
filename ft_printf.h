@@ -6,14 +6,13 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 10:40:26 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/02 10:06:27 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/07 13:58:35 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# include "./Libft/libft.h"
 # include <stdarg.h>
 # include <string.h>
 # include <stdint.h>
@@ -27,6 +26,7 @@ typedef struct		s_flag
 	unsigned int	espace : 1;
 	unsigned int	diese : 1;
 	unsigned int	zero : 1;
+	unsigned int	negatif : 1;
 }					t_flag;
 
 typedef struct		s_width
@@ -88,6 +88,21 @@ typedef struct		s_len
 int					ft_printf(const char *str, ...);
 int					write_buf(t_struc *struc, char **buf, t_len *len,
 		va_list ap);
+int					ft_atoi(char *nptr);
+void				*ft_memset(void *s, int c, size_t n);
+size_t				ft_strlen(char *str);
+char				*ft_strjoin(const char *s1, const char *s2);
+char				*ft_strcat(char *dest, const char *src);
+void				*ft_bzero(void *s, size_t n);
+char				*ft_strnew(size_t size);
+void				ft_putstr(char *str);
+char				*ft_itoa(int n);
+void				*ft_memcpy(void *dest, const void *src, size_t n);
+void				*ft_memalloc(size_t size);
+void				ft_putnbr(int nb);
+void				ft_putchar(char c);
+char				*ft_strdup(char *src);
+char				*ft_itoa_int_min(int n);
 char				*ft_itoa_base(int n, int base);
 char				*ft_unsigned_itoa(unsigned int n);
 char				*ft_unsigned_itoa_base(unsigned int n, int base);

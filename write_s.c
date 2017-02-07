@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:38:22 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/01 09:24:45 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/07 11:13:07 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*ft_if_precision(t_struc *struc, char *tmp, t_len *len)
 		if (!(tmp_prec = (char *)malloc(sizeof(char) *
 						struc->precision.number)))
 			return (0);
-		tmp_prec = ft_memset(tmp_prec, 48, struc->precision.number -
+		tmp_prec = ft_memset(tmp_prec, 32, struc->precision.number -
 				ft_strlen(tmp));
 		tmp_prec[struc->precision.number - ft_strlen(tmp)] = '\0';
 		tmp = ft_strjoin(tmp_prec, tmp);
@@ -69,6 +69,8 @@ int			write_s(t_struc *struc, char **buf, t_len *len, va_list ap)
 	char	*tmp;
 
 	tmp = va_arg(ap, char *);
+	if (tmp == NULL)
+		tmp = "(null)";
 	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp));
 	if (struc->precision.number != -1)
 		tmp = ft_if_precision(struc, tmp, len);
