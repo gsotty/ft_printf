@@ -6,7 +6,7 @@
 #    By: gsotty <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/03 15:44:40 by gsotty            #+#    #+#              #
-#    Updated: 2017/02/07 13:58:06 by gsotty           ###   ########.fr        #
+#    Updated: 2017/02/08 10:03:14 by gsotty           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRC = check_flag.c check_lenght.c check_precision.c check_specifier.c \
 	  ft_wcstombs.c write_sm.c ft_atoi.c ft_bzero.c ft_itoa.c ft_memcpy.c \
 	  ft_putstr.c ft_strcat.c ft_strjoin.c ft_strlen.c ft_strnew.c \
 	  ft_memalloc.c ft_memset.c ft_putnbr.c ft_putchar.c write_buf.c \
-	  ft_strdup.c ft_itoa_int_min.c
+	  ft_strdup.c ft_itoa_int_min.c ft_uintmax_t_itoa_base.c ft_putnstr.c
 
 OBJ = $(SRC:.c=.o)
 

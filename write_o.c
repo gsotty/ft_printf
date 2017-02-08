@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 11:43:59 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/06 15:29:51 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/07 18:46:01 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,13 @@ int			write_o(t_struc *struc, char **buf, t_len *len, va_list ap)
 	char	*tmp;
 
 	tmp = modif_longeur(struc, ap);
+	if (ft_atoi(tmp) == 0 && (struc->width.number != 0 ||
+				struc->precision.number != -1) && struc->flag.diese != 1)
+	{
+		tmp[0] = '\0';
+	}
 	if (ft_atoi(tmp) == 0)
 		struc->flag.diese = 0;
-	if (ft_atoi(tmp) == 0 && (struc->precision.number != -1 ||
-				struc->width.number != 0))
-		tmp[0] = '\0';
 	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp));
 	if (struc->flag.diese == 1 && struc->precision.number > 0)
 		struc->precision.number = struc->precision.number - 1;

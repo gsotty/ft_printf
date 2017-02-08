@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 12:54:05 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/07 11:10:38 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/08 14:06:54 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,26 @@ void		verif_line_2(t_struc *struc, const char *str, int z, int y)
 
 char		*verif_line(t_len *len, const char *str, char *buf, va_list ap)
 {
-	int		y;
 	t_struc	struc;
 
-	y = 0;
-	while (str[len->pos_str] != '\0')
+	len->y = 0;
+	while (len->pos_str < len->len_str)
 	{
-		if (str[len->pos_str] == '%' && (y = len->pos_str + 1))
+		if (str[len->pos_str] == '%' && (len->y = len->pos_str + 1))
 		{
 			ft_bzero(&struc, sizeof(t_struc));
 			if (!(len->pos_str = check_specifier(&struc, str,
 							len->pos_str + 1)))
 				return (NULL);
-			verif_line_2(&struc, str, len->pos_str, y);
-			write_buf(&struc, &buf, len, ap);
+			verif_line_2(&struc, str, len->pos_str, len->y);
 			len->pos_str++;
+			write_buf(&struc, &buf, len, ap);
 		}
 		else
 		{
-			if (len->pos_buf > len->len_str)
-				buf = ft_remalloc(buf, len->pos_buf + 1);
+			buf = ft_remalloc(buf, len->pos_buf + 1);
 			buf[len->pos_buf++] = str[len->pos_str++];
+			buf[len->pos_buf] = '\0';
 		}
 	}
 	return (buf);

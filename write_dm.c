@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:34:00 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/27 14:34:01 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/08 12:23:09 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,37 +51,64 @@ static char	*ft_largeur(t_struc *struc, char *tmp)
 	return (tmp);
 }
 
-static char	*ft_if_precision(t_struc *struc, char *tmp)
+static char	*ft_if_precision(t_struc *struc, char *tmp, t_len *len)
 {
 	char	*tmp_prec;
 
-	if (struc->precision.number > (int)ft_strlen(tmp))
+	if (struc->precision.number >= len->len_tmp)
 	{
 		if (!(tmp_prec = (char *)malloc(sizeof(char) *
 						struc->precision.number)))
 			return (0);
 		tmp_prec = ft_memset(tmp_prec, 48, struc->precision.number -
-				ft_strlen(tmp));
-		tmp_prec[struc->precision.number - ft_strlen(tmp)] = '\0';
+				len->len_tmp);
+		tmp_prec[struc->precision.number - len->len_tmp] = '\0';
 		tmp = ft_strjoin(tmp_prec, tmp);
+		len->len_tmp = struc->precision.number;
 	}
 	if (struc->flag.plus == 1)
+	{
 		tmp = ft_strjoin("+", tmp);
+		len->len_tmp += 1;
+	}
 	else if (struc->flag.espace == 1)
+	{
 		tmp = ft_strjoin(" ", tmp);
-	if (struc->width.number > (int)ft_strlen(tmp))
+		len->len_tmp += 1;
+	}
+	if (struc->width.number >= len->len_tmp)
+	{
 		tmp = ft_largeur(struc, tmp);
+		len->len_str = ((len->len_buf) - (len->pos_str - (len->y - 1)))
+			+ struc->width.number;
+	}
+	else
+		len->len_str = ((len->len_buf) - (len->pos_str - (len->y - 1)))
+			+ len->len_tmp;
 	return (tmp);
 }
 
-static char	*ft_if_no_precision(t_struc *struc, char *tmp)
+static char	*ft_if_no_precision(t_struc *struc, char *tmp, t_len *len)
 {
 	if (struc->flag.plus == 1)
+	{
 		tmp = ft_strjoin("+", tmp);
+		len->len_tmp += 1;
+	}
 	else if (struc->flag.espace == 1)
+	{
 		tmp = ft_strjoin(" ", tmp);
-	if (struc->width.number > (int)ft_strlen(tmp))
+		len->len_tmp += 1;
+	}
+	if (struc->width.number >= len->len_tmp)
+	{
 		tmp = ft_largeur(struc, tmp);
+		len->len_str = ((len->len_buf) - (len->pos_str - (len->y - 1)))
+			+ struc->width.number;
+	}
+	else
+		len->len_str = ((len->len_buf) - (len->pos_str - (len->y - 1)))
+			+ len->len_tmp;
 	return (tmp);
 }
 
@@ -90,7 +117,7 @@ int			write_dm(t_struc *struc, char **buf, t_len *len, va_list ap)
 	char	*tmp;
 
 	tmp = modif_longeur(struc, ap);
-	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp));
+	len->len_tmp = ft_strlen(tmp);
 	if (struc->flag.zero == 1 && (struc->flag.plus == 1 || struc->flag.espace
 				== 1) && struc->width.number > 0 && struc->precision.number
 			== -1 && struc->flag.tiret == 0)
@@ -99,13 +126,13 @@ int			write_dm(t_struc *struc, char **buf, t_len *len, va_list ap)
 		struc->width.number = 0;
 	}
 	if (struc->precision.number != -1)
-		tmp = ft_if_precision(struc, tmp);
+		tmp = ft_if_precision(struc, tmp, len);
 	else
-		tmp = ft_if_no_precision(struc, tmp);
-	len->len_str += ft_strlen(tmp);
-	len->pos_buf += ft_strlen(tmp);
+		tmp = ft_if_no_precision(struc, tmp, len);
+	len->pos_buf += struc->width.number + len->pos_buf;
 	ft_remalloc(*buf, len->len_str);
 	ft_strcat(*buf, tmp);
+	len->len_tmp = 0;
 	free(tmp);
 	return (0);
 }

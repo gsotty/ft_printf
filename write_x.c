@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 13:47:16 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/07 09:30:10 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/07 15:05:38 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static char	*modif_longeur(t_struc *struc, va_list ap)
 	else if (struc->lenght.l == 1)
 		return (ft_unsigned_long_itoa_base((long)va_arg(ap, uintmax_t), 16));
 	else if (struc->lenght.ll == 1)
-		return (ft_intmax_t_itoa_base((intmax_t)va_arg(ap, uintmax_t), 16));
+		return (ft_uintmax_t_itoa_base((intmax_t)va_arg(ap, uintmax_t), 16));
 	else if (struc->lenght.j == 1)
-		return (ft_intmax_t_itoa_base((intmax_t)va_arg(ap, uintmax_t), 16));
+		return (ft_uintmax_t_itoa_base((intmax_t)va_arg(ap, uintmax_t), 16));
 	else if (struc->lenght.z == 1)
 		return (ft_unsigned_long_itoa_base((size_t)va_arg(ap, uintmax_t), 16));
 	else

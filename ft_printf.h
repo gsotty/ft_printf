@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 10:40:26 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/07 13:58:35 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/08 11:20:26 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,10 @@ typedef struct		s_len
 {
 	int				len_buf;
 	int				len_str;
+	int				len_tmp;
 	int				pos_buf;
 	int				pos_str;
+	int				y;
 }					t_len;
 
 int					ft_printf(const char *str, ...);
@@ -102,6 +104,7 @@ void				*ft_memalloc(size_t size);
 void				ft_putnbr(int nb);
 void				ft_putchar(char c);
 char				*ft_strdup(char *src);
+void				ft_putnstr(char *str, size_t nbr);
 char				*ft_itoa_int_min(int n);
 char				*ft_itoa_base(int n, int base);
 char				*ft_unsigned_itoa(unsigned int n);
@@ -111,6 +114,7 @@ char				*ft_long_itoa_base(long n, int base);
 char				*ft_unsigned_long_itoa_base(unsigned long n, int base);
 char				*ft_unsigned_long_itoa_base_m(unsigned long n, int base);
 char				*ft_intmax_t_itoa_base(intmax_t n, int base);
+char				*ft_uintmax_t_itoa_base(uintmax_t n, int base);
 char				*ft_intmax_t_itoa_base_m(intmax_t n, int base);
 char				*ft_remalloc(char *dest, int len_f);
 int					check_specifier(t_struc *struc, const char *str, int z);
