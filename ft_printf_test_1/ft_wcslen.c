@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_wcslen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/31 16:45:05 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/09 17:51:42 by gsotty           ###   ########.fr       */
+/*   Created: 2017/02/09 10:25:08 by gsotty            #+#    #+#             */
+/*   Updated: 2017/02/09 10:26:16 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
+#include <wchar.h>
 
-int		main(void)
+size_t		ft_wcslen(const wchar_t *wcs)
 {
-	printf("p{%-15Z}\n", 123);
-	ft_printf("f{%-15Z}\n", 123);
-	return (0);
+	size_t		converted_char;
+	int			current_char;
+	char		temp[4];
+
+	converted_char = 0;
+	while (*wcs)
+	{
+		if ((current_char = ft_wctomb(temp, *wcs++)) == -1)
+			return ((size_t)-1);
+		converted_char += current_char;
+	}
+	return (converted_char);
 }

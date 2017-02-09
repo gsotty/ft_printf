@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 09:57:16 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/27 17:11:44 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/09 11:11:03 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int			write_pourcent(t_struc *struc, char **buf, t_len *len)
 		tmp = ft_largeur(struc, tmp);
 	len->len_str += ft_strlen(tmp);
 	len->pos_buf += ft_strlen(tmp);
-	ft_remalloc(*buf, len->len_str);
+	ft_remalloc(*buf, len->len_str, len->pos_buf);
 	ft_strcat(*buf, tmp);
 	free(tmp);
 	return (0);

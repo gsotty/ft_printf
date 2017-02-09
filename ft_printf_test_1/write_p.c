@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:39:24 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/27 14:50:46 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/09 11:10:50 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int			write_p(t_struc *struc, char **buf, t_len *len, va_list ap)
 	char	*tmp;
 
 	tmp = ft_long_itoa_base((long)va_arg(ap, void *), 16);
-	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp));
+	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp), len->pos_buf);
 	if (struc->flag.zero == 1 && struc->width.number > 0 &&
 			struc->precision.number == -1 && struc->flag.tiret == 0)
 	{
@@ -79,7 +79,7 @@ int			write_p(t_struc *struc, char **buf, t_len *len, va_list ap)
 		tmp = ft_if_no_precision(struc, tmp);
 	len->len_str += ft_strlen(tmp);
 	len->pos_buf += ft_strlen(tmp);
-	ft_remalloc(*buf, len->len_str);
+	ft_remalloc(*buf, len->len_str, len->pos_buf);
 	ft_strcat(*buf, tmp);
 	free(tmp);
 	return (0);

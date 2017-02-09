@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 13:55:26 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/27 15:34:35 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/09 16:35:15 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int			write_xm(t_struc *struc, char **buf, t_len *len, va_list ap)
 	char	*tmp;
 
 	tmp = modif_longeur(struc, ap);
-	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp));
+	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp), len->pos_buf);
 	if (struc->flag.zero == 1 && (struc->flag.plus == 1 || struc->flag.espace
 				== 1) && struc->width.number > 0 && struc->precision.number
 			== -1 && struc->flag.tiret == 0)
@@ -100,8 +100,7 @@ int			write_xm(t_struc *struc, char **buf, t_len *len, va_list ap)
 		tmp = ft_if_no_precision(struc, tmp);
 	len->len_str += ft_strlen(tmp);
 	len->pos_buf += ft_strlen(tmp);
-	ft_remalloc(*buf, len->len_str);
+	ft_remalloc(*buf, len->len_str, len->pos_buf);
 	ft_strcat(*buf, tmp);
-	free(tmp);
 	return (0);
 }

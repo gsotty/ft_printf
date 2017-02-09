@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:14:12 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/02 15:06:42 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/09 11:13:01 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,14 @@ int			write_u(t_struc *struc, char **buf, t_len *len, va_list ap)
 	char	*tmp;
 
 	tmp = modif_longeur(struc, ap);
-	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp));
+	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp), len->pos_buf);
 	if (struc->precision.number != -1)
 		tmp = ft_if_precision(struc, tmp);
 	else
 		tmp = ft_if_no_precision(struc, tmp);
 	len->len_str += ft_strlen(tmp);
 	len->pos_buf += ft_strlen(tmp);
-	ft_remalloc(*buf, len->len_str);
+	ft_remalloc(*buf, len->len_str, len->pos_buf);
 	ft_strcat(*buf, tmp);
 	free(tmp);
 	return (0);

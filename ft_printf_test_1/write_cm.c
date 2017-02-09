@@ -6,54 +6,59 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 16:53:32 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/31 15:36:45 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/09 17:25:32 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <wchar.h>
 
-static char	*ft_largeur(t_struc *struc, char *tmp)
+static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 {
+	int		tmp_int;
 	char	*tmp_spaces;
 
+	tmp_int = struc->width.number - len->len_tmp;
 	if (!(tmp_spaces = (char *)malloc(sizeof(char) * struc->width.number)))
 		return (0);
 	if (struc->flag.zero && (struc->flag.tiret == 0) &&
 			(struc->precision.number == -1))
-	{
-		tmp_spaces = ft_memset(tmp_spaces, 48, struc->width.number -
-				ft_strlen(tmp));
-	}
+		tmp_spaces = ft_memset(tmp_spaces, 48, tmp_int);
 	else
-	{
-		tmp_spaces = ft_memset(tmp_spaces, 32, struc->width.number -
-				ft_strlen(tmp));
-	}
+		tmp_spaces = ft_memset(tmp_spaces, 32, tmp_int);
 	tmp_spaces[struc->width.number - ft_strlen(tmp)] = '\0';
 	if (struc->flag.tiret)
-		tmp = ft_strjoin(tmp, tmp_spaces);
+	{
+		ft_remalloc(tmp, struc->width.number, len->len_tmp);
+		ft_memmove(tmp + len->len_tmp, tmp_spaces, tmp_int);
+	}
 	else
-		tmp = ft_strjoin(tmp_spaces, tmp);
+	{
+		ft_remalloc(tmp_spaces, struc->width.number, tmp_int);
+		ft_memmove(tmp_spaces + tmp_int, tmp, len->len_tmp);
+		tmp = ft_strdup(tmp_spaces);
+	}
 	return (tmp);
 }
 
 int			write_cm(t_struc *struc, char **buf, t_len *len, va_list ap)
 {
 	char	*tmp;
-	wchar_t	*tmp_va;
+	wchar_t	tmp_va;
 
+	tmp_va =  (wchar_t)va_arg(ap, int);
 	tmp = ft_strnew(4);
-	tmp_va = (wchar_t *)ft_strnew(2);
-	tmp_va[0] = va_arg(ap, int);
-	tmp_va[1] = '\0';
-	ft_wcstombs(tmp, tmp_va, 4);
-	*buf = ft_remalloc(*buf, len->len_str + 1);
-	if (struc->width.number > (int)ft_strlen(tmp))
-		tmp = ft_largeur(struc, tmp);
-	len->len_str += ft_strlen(tmp);
-	len->pos_buf += ft_strlen(tmp);
-	ft_remalloc(*buf, len->len_str);
-	ft_strcat(*buf, tmp);
+	len->len_tmp = ft_wctomb(tmp, tmp_va);
+	*buf = ft_remalloc(*buf, len->len_str + 1, len->pos_buf);
+	if (struc->width.number > len->len_tmp)
+	{
+		tmp = ft_largeur(struc, tmp, len);
+		len->len_tmp = struc->width.number;
+	}
+	len->len_str += len->len_tmp;
+	ft_remalloc(*buf, len->len_str, len->pos_buf);
+	ft_memmove(*buf + len->pos_buf, tmp, len->len_tmp);
+	len->pos_buf += len->len_tmp;
 	free(tmp);
 	return (0);
 }

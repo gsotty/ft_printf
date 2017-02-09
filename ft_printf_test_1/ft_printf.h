@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 10:40:26 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/07 13:58:35 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/09 11:24:36 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ typedef struct		s_struc
 
 typedef struct		s_len
 {
-	int				len_buf;
 	int				len_str;
+	int				len_tmp;
 	int				pos_buf;
 	int				pos_str;
 }					t_len;
@@ -96,6 +96,7 @@ char				*ft_strcat(char *dest, const char *src);
 void				*ft_bzero(void *s, size_t n);
 char				*ft_strnew(size_t size);
 void				ft_putstr(char *str);
+void				ft_putnstr(char *str, size_t n);
 char				*ft_itoa(int n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
 void				*ft_memalloc(size_t size);
@@ -110,13 +111,18 @@ char				*ft_unsigned_itoa_base_m(unsigned int n, int base);
 char				*ft_long_itoa_base(long n, int base);
 char				*ft_unsigned_long_itoa_base(unsigned long n, int base);
 char				*ft_unsigned_long_itoa_base_m(unsigned long n, int base);
+char				*ft_uintmax_t_itoa_base(uintmax_t n, int base);
 char				*ft_intmax_t_itoa_base(intmax_t n, int base);
 char				*ft_intmax_t_itoa_base_m(intmax_t n, int base);
-char				*ft_remalloc(char *dest, int len_f);
+char				*ft_remalloc(char *dest, int len_d, int len_s);
 int					check_specifier(t_struc *struc, const char *str, int z);
 int					check_flag(t_struc *struc, const char *str, int z, int y);
 int					check_width(t_struc *struc, const char *str, int z, int y);
+size_t				ft_wcsnlen(const wchar_t *wcs, size_t n);
+size_t				ft_wcslen(const wchar_t *wcs);
+int					ft_wctomb(char *s, wchar_t wc);
 size_t				ft_wcstombs(char *dest, const wchar_t *src, size_t n);
+void				*ft_memmove(void *dest, const void *src, size_t n);
 int					check_precision(t_struc *struc, const char *str,
 		int z, int y);
 int					check_lenght(t_struc *struc, const char *str,

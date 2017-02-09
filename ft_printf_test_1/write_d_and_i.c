@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 10:42:10 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/07 14:12:12 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/09 17:42:01 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*modif_longeur(t_struc *struc, va_list ap)
 			struc->flag.negatif = 1;
 			tmp = -tmp;
 		}
-		return (ft_long_itoa_base((long)tmp, 10));
+		return (ft_unsigned_long_itoa_base((long)tmp, 10));
 	}
 	else if (struc->lenght.ll == 1)
 	{
@@ -54,7 +54,7 @@ static char	*modif_longeur(t_struc *struc, va_list ap)
 			struc->flag.negatif = 1;
 			tmp = -tmp;
 		}
-		return (ft_intmax_t_itoa_base((long long)tmp, 10));
+		return (ft_uintmax_t_itoa_base((long long)tmp, 10));
 	}
 	else if (struc->lenght.j == 1)
 	{
@@ -68,13 +68,13 @@ static char	*modif_longeur(t_struc *struc, va_list ap)
 	}
 	else if (struc->lenght.z == 1)
 	{
-		tmp = va_arg(ap, size_t);
+		tmp = va_arg(ap, ssize_t);
 		if (tmp < 0)
 		{
 			struc->flag.negatif = 1;
 			tmp = -tmp;
 		}
-		return (ft_unsigned_itoa_base((size_t)tmp, 10));
+		return (ft_intmax_t_itoa_base((ssize_t)tmp, 10));
 	}
 	else
 	{
@@ -88,62 +88,117 @@ static char	*modif_longeur(t_struc *struc, va_list ap)
 	}
 }
 
-static char	*ft_largeur(t_struc *struc, char *tmp)
+static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 {
+	int		tmp_int;
 	char	*tmp_spaces;
 
+	tmp_int = struc->width.number - len->len_tmp;
 	if (!(tmp_spaces = (char *)malloc(sizeof(char) * struc->width.number)))
 		return (0);
 	if (struc->flag.zero && (struc->flag.tiret == 0) &&
 			(struc->precision.number == -1))
-		tmp_spaces = ft_memset(tmp_spaces, 48, struc->width.number -
-				ft_strlen(tmp));
+		tmp_spaces = ft_memset(tmp_spaces, 48, tmp_int);
 	else
-		tmp_spaces = ft_memset(tmp_spaces, 32, struc->width.number -
-				ft_strlen(tmp));
-	tmp_spaces[struc->width.number - ft_strlen(tmp)] = '\0';
+		tmp_spaces = ft_memset(tmp_spaces, 32, tmp_int);
+	tmp_spaces[struc->width.number - len->len_tmp] = '\0';
 	if (struc->flag.tiret)
-		tmp = ft_strjoin(tmp, tmp_spaces);
+	{
+		ft_remalloc(tmp, struc->width.number, len->len_tmp);
+		ft_memmove(tmp + len->len_tmp, tmp_spaces, tmp_int);
+	}
 	else
-		tmp = ft_strjoin(tmp_spaces, tmp);
+	{
+		ft_remalloc(tmp, struc->width.number, tmp_int);
+		ft_memmove(tmp_spaces + tmp_int, tmp, len->len_tmp);
+		tmp = ft_strdup(tmp_spaces);
+	}
 	return (tmp);
 }
 
-static char	*ft_if_precision(t_struc *struc, char *tmp)
+static char	*ft_if_precision(t_struc *struc, char *tmp, t_len *len)
 {
+	char	*tmp_char;
 	char	*tmp_prec;
 
-	if (struc->precision.number > (int)ft_strlen(tmp))
+	tmp_char = NULL;
+	if (struc->precision.number > len->len_tmp)
 	{
 		if (!(tmp_prec = (char *)malloc(sizeof(char) *
 						struc->precision.number)))
 			return (0);
 		tmp_prec = ft_memset(tmp_prec, 48, struc->precision.number -
-				ft_strlen(tmp));
-		tmp_prec[struc->precision.number - ft_strlen(tmp)] = '\0';
+				len->len_tmp);
+		tmp_prec[struc->precision.number - len->len_tmp] = '\0';
 		tmp = ft_strjoin(tmp_prec, tmp);
+		len->len_tmp = struc->precision.number;
 	}
 	if (struc->flag.negatif == 1)
-		tmp = ft_strjoin("-", tmp);
+	{
+		tmp_char = ft_strdup("-");
+		ft_remalloc(tmp_char, len->len_tmp + 1, 1);
+		ft_memmove(tmp_char + 1, tmp, len->len_tmp + 1);
+		tmp = ft_strdup(tmp_char);
+		len->len_tmp++;
+	}
 	else if (struc->flag.plus == 1)
-		tmp = ft_strjoin("+", tmp);
+	{
+		tmp_char = ft_strdup("+");
+		ft_remalloc(tmp_char, len->len_tmp + 1, 1);
+		ft_memmove(tmp_char + 1, tmp, len->len_tmp + 1);
+		tmp = ft_strdup(tmp_char);
+		len->len_tmp++;
+	}
 	else if (struc->flag.espace == 1)
-		tmp = ft_strjoin(" ", tmp);
-	if (struc->width.number > (int)ft_strlen(tmp))
-		tmp = ft_largeur(struc, tmp);
+	{
+		tmp_char = ft_strdup(" ");
+		ft_remalloc(tmp_char, len->len_tmp + 1, 1);
+		ft_memmove(tmp_char + 1, tmp, len->len_tmp + 1);
+		tmp = ft_strdup(tmp_char);
+		len->len_tmp++;
+	}
+	if (struc->width.number > len->len_tmp)
+	{
+		tmp = ft_largeur(struc, tmp, len);
+		len->len_tmp = struc->width.number;
+	}
 	return (tmp);
 }
 
-static char	*ft_if_no_precision(t_struc *struc, char *tmp)
+static char	*ft_if_no_precision(t_struc *struc, char *tmp, t_len *len)
 {
+	char	*tmp_char;
+
+	tmp_char = NULL;
 	if (struc->flag.negatif == 1)
-		tmp = ft_strjoin("-", tmp);
+	{
+		tmp_char = ft_strdup("-");
+		ft_remalloc(tmp_char, len->len_tmp + 1, 1);
+		ft_memmove(tmp_char + 1, tmp, len->len_tmp + 1);
+		tmp = ft_strdup(tmp_char);
+		len->len_tmp++;
+	}
 	else if (struc->flag.plus == 1)
-		tmp = ft_strjoin("+", tmp);
+	{
+		tmp_char = ft_strdup("+");
+		ft_remalloc(tmp_char, len->len_tmp + 1, 1);
+		ft_memmove(tmp_char + 1, tmp, len->len_tmp + 1);
+		tmp = ft_strdup(tmp_char);
+		len->len_tmp++;
+	}
 	else if (struc->flag.espace == 1)
-		tmp = ft_strjoin(" ", tmp);
-	if (struc->width.number > (int)ft_strlen(tmp))
-		tmp = ft_largeur(struc, tmp);
+	{
+		tmp_char = ft_strdup(" ");
+		ft_remalloc(tmp_char, len->len_tmp + 1, 1);
+		ft_memmove(tmp_char + 1, tmp, len->len_tmp + 1);
+		tmp = ft_strdup(tmp_char);
+		len->len_tmp++;
+	}
+	if (struc->width.number > len->len_tmp)
+	{
+		tmp = ft_largeur(struc, tmp, len);
+		len->len_tmp = struc->width.number;
+	}
 	return (tmp);
 }
 
@@ -152,7 +207,13 @@ int			write_d_and_i(t_struc *struc, char **buf, t_len *len, va_list ap)
 	char	*tmp;
 
 	tmp = modif_longeur(struc, ap);
-	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp));
+	len->len_tmp = ft_strlen(tmp);
+	if (ft_atoi(tmp) == 0 && struc->precision.number != -1
+				&& struc->width.number != 0 && struc->flag.zero != 1)
+		tmp[0] = ' ';
+	if (ft_atoi(tmp) == 0 && struc->precision.number != -1
+				&& struc->width.number == 0)
+		len->len_tmp = 0;
 	if (struc->flag.zero == 1 && (struc->flag.plus == 1 || struc->flag.espace
 				== 1 || struc->flag.negatif == 1) && struc->width.number > 0
 			&& struc->precision.number == -1 && struc->flag.tiret == 0)
@@ -160,14 +221,14 @@ int			write_d_and_i(t_struc *struc, char **buf, t_len *len, va_list ap)
 		struc->precision.number = struc->width.number - 1;
 		struc->width.number = 0;
 	}
+	*buf = ft_remalloc(*buf, len->len_str + len->len_tmp, len->pos_buf);
 	if (struc->precision.number != -1)
-		tmp = ft_if_precision(struc, tmp);
+		tmp = ft_if_precision(struc, tmp, len);
 	else
-		tmp = ft_if_no_precision(struc, tmp);
-	len->len_str += ft_strlen(tmp);
-	len->pos_buf += ft_strlen(tmp);
-	ft_remalloc(*buf, len->len_str);
-	ft_strcat(*buf, tmp);
-	free(tmp);
+		tmp = ft_if_no_precision(struc, tmp, len);
+	len->len_str += len->len_tmp;
+	ft_remalloc(*buf, len->len_str, len->pos_buf);
+	ft_memmove(*buf + len->pos_buf, tmp, len->len_tmp);
+	len->pos_buf += len->len_tmp;
 	return (0);
 }

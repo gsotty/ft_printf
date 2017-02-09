@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 13:47:16 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/07 09:30:10 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/09 11:13:46 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static char	*modif_longeur(t_struc *struc, va_list ap)
 	else if (struc->lenght.l == 1)
 		return (ft_unsigned_long_itoa_base((long)va_arg(ap, uintmax_t), 16));
 	else if (struc->lenght.ll == 1)
-		return (ft_intmax_t_itoa_base((intmax_t)va_arg(ap, uintmax_t), 16));
+		return (ft_uintmax_t_itoa_base((intmax_t)va_arg(ap, uintmax_t), 16));
 	else if (struc->lenght.j == 1)
-		return (ft_intmax_t_itoa_base((intmax_t)va_arg(ap, uintmax_t), 16));
+		return (ft_uintmax_t_itoa_base((intmax_t)va_arg(ap, uintmax_t), 16));
 	else if (struc->lenght.z == 1)
 		return (ft_unsigned_long_itoa_base((size_t)va_arg(ap, uintmax_t), 16));
 	else
@@ -91,7 +91,7 @@ int			write_x(t_struc *struc, char **buf, t_len *len, va_list ap)
 	if (ft_atoi(tmp) == 0 && (struc->precision.number != -1 ||
 				struc->width.number != 0))
 		tmp[0] = '\0';
-	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp));
+	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp), len->pos_buf);
 	if (struc->flag.zero == 1 && (struc->flag.plus == 1 || struc->flag.espace
 				== 1 || struc->flag.diese == 1) && struc->width.number > 0
 			&& struc->precision.number == -1 && struc->flag.tiret == 0)
@@ -105,7 +105,7 @@ int			write_x(t_struc *struc, char **buf, t_len *len, va_list ap)
 		tmp = ft_if_no_precision(struc, tmp);
 	len->len_str += ft_strlen(tmp);
 	len->pos_buf += ft_strlen(tmp);
-	ft_remalloc(*buf, len->len_str);
+	ft_remalloc(*buf, len->len_str, len->pos_buf);
 	ft_strcat(*buf, tmp);
 	return (0);
 }
