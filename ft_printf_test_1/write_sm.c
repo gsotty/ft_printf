@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:38:22 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/10 15:39:19 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/10 16:06:20 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 	return (tmp);
 }
 
-static char	*ft_if_precision(t_struc *struc, char *tmp, t_len *len)
+static char	*ft_if_precision(t_struc *struc, char *tmp,
+		t_len *len, char **buf)
 {
 	if (struc->precision.number <= len->len_tmp)
 	{
@@ -53,16 +54,25 @@ static char	*ft_if_precision(t_struc *struc, char *tmp, t_len *len)
 		tmp = ft_largeur(struc, tmp, len);
 		len->len_tmp = struc->width.number;
 	}
+	len->len_str += len->len_tmp;
+	*buf = ft_remalloc(*buf, len->len_str, len->pos_buf);
+	ft_memmove(*buf + len->pos_buf, tmp, len->len_tmp);
+	len->pos_buf += len->len_tmp;
 	return (tmp);
 }
 
-static char	*ft_if_no_precision(t_struc *struc, char *tmp, t_len *len)
+static char	*ft_if_no_precision(t_struc *struc, char *tmp,
+		t_len *len, char **buf)
 {
 	if (struc->width.number > len->len_tmp)
 	{
 		tmp = ft_largeur(struc, tmp, len);
 		len->len_tmp = struc->width.number;
 	}
+	len->len_str += len->len_tmp;
+	*buf = ft_remalloc(*buf, len->len_str, len->pos_buf);
+	ft_memmove(*buf + len->pos_buf, tmp, len->len_tmp);
+	len->pos_buf += len->len_tmp;
 	return (tmp);
 }
 
@@ -72,8 +82,8 @@ int			write_sm(t_struc *struc, char **buf, t_len *len, va_list ap)
 	char	*tmp;
 	wchar_t	*tmp_va;
 
-	tmp_va = va_arg(ap, int *);
 	len->null = 0;
+	tmp_va = va_arg(ap, int *);
 	if (tmp_va == NULL)
 	{
 		tmp = "(null)";
@@ -88,14 +98,9 @@ int			write_sm(t_struc *struc, char **buf, t_len *len, va_list ap)
 	}
 	if (tmp[0] == '\0')
 		struc->precision.number = -1;
-	*buf = ft_remalloc(*buf, len->len_str + len->len_tmp, len->pos_buf);
 	if (struc->precision.number != -1)
-		tmp = ft_if_precision(struc, tmp, len);
+		tmp = ft_if_precision(struc, tmp, len, buf);
 	else
-		tmp = ft_if_no_precision(struc, tmp, len);
-	len->len_str += len->len_tmp;
-	*buf = ft_remalloc(*buf, len->len_str, len->pos_buf);
-	ft_memmove(*buf + len->pos_buf, tmp, len->len_tmp);
-	len->pos_buf += len->len_tmp;
+		tmp = ft_if_no_precision(struc, tmp, len, buf);
 	return (0);
 }

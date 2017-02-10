@@ -6,87 +6,11 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 10:42:10 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/10 11:37:29 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/10 16:39:41 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-static char	*modif_longeur(t_struc *struc, va_list ap)
-{
-	intmax_t	tmp;
-
-	if (struc->lenght.h == 1)
-	{
-		tmp = (short)va_arg(ap, int);
-		if (tmp < 0)
-		{
-			struc->flag.negatif = 1;
-			tmp = -tmp;
-		}
-		return (ft_itoa(tmp));
-	}
-	else if (struc->lenght.hh == 1)
-	{
-		tmp = (char)va_arg(ap, int);
-		if (tmp < 0)
-		{
-			struc->flag.negatif = 1;
-			tmp = -tmp;
-		}
-		return (ft_itoa(tmp));
-	}
-	else if (struc->lenght.l == 1)
-	{
-		tmp = va_arg(ap, long);
-		if (tmp < 0)
-		{
-			struc->flag.negatif = 1;
-			tmp = -tmp;
-		}
-		return (ft_unsigned_long_itoa_base((long)tmp, 10));
-	}
-	else if (struc->lenght.ll == 1)
-	{
-		tmp = va_arg(ap, long long);
-		if (tmp < 0)
-		{
-			struc->flag.negatif = 1;
-			tmp = -tmp;
-		}
-		return (ft_uintmax_t_itoa_base((long long)tmp, 10));
-	}
-	else if (struc->lenght.j == 1)
-	{
-		tmp = va_arg(ap, intmax_t);
-		if (tmp < 0)
-		{
-			struc->flag.negatif = 1;
-			tmp = -tmp;
-		}
-		return (ft_uintmax_t_itoa_base((intmax_t)tmp, 10));
-	}
-	else if (struc->lenght.z == 1)
-	{
-		tmp = va_arg(ap, size_t);
-		if (tmp < 0)
-		{
-			struc->flag.negatif = 1;
-			tmp = -tmp;
-		}
-		return (ft_uintmax_t_itoa_base((size_t)tmp, 10));
-	}
-	else
-	{
-		tmp = va_arg(ap, int);
-		if (tmp < 0)
-		{
-			struc->flag.negatif = 1;
-			tmp = -tmp;
-		}
-		return (ft_itoa_int_min(tmp));
-	}
-}
 
 static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 {
@@ -206,7 +130,7 @@ int			write_d_and_i(t_struc *struc, char **buf, t_len *len, va_list ap)
 {
 	char	*tmp;
 
-	tmp = modif_longeur(struc, ap);
+	tmp = modif_longeur_d_and_i(struc, ap);
 	len->len_tmp = ft_strlen(tmp);
 	if (ft_atoi(tmp) == 0 && struc->precision.number != -1
 				&& struc->width.number != 0 && struc->flag.zero != 1)

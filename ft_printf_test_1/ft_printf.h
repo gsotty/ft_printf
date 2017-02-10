@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 10:40:26 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/10 15:50:41 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/10 16:19:43 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,8 @@ int					ft_wctomb(char *s, wchar_t wc);
 size_t				ft_wcstombs(char *dest, const wchar_t *src, size_t n);
 void				*ft_memmove(void *dest, const void *src, size_t n);
 char				*modif_longeur_x(t_struc *struc, va_list ap);
+char				*modif_longeur_xm(t_struc *struc, va_list ap);
+char				*modif_longeur_d_and_i(t_struc *struc, va_list ap);
 int					check_precision(t_struc *struc, const char *str,
 		int z, int y);
 int					check_lenght(t_struc *struc, const char *str,
