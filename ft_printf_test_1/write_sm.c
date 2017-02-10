@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:38:22 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/09 17:17:42 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/10 15:39:19 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,7 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 
 static char	*ft_if_precision(t_struc *struc, char *tmp, t_len *len)
 {
-	char	*tmp_prec;
-
-	if (struc->precision.number > len->len_tmp)
-	{
-		if (!(tmp_prec = (char *)malloc(sizeof(char) *
-						struc->precision.number)))
-			return (0);
-		tmp_prec = ft_memset(tmp_prec, 32, struc->precision.number -
-				len->len_tmp);
-		tmp_prec[struc->precision.number - len->len_tmp] = '\0';
-		tmp = ft_strjoin(tmp_prec, tmp);
-		len->len_tmp = struc->precision.number;
-	}
-	else
+	if (struc->precision.number <= len->len_tmp)
 	{
 		tmp = ft_remalloc(tmp, struc->precision.number, len->len_tmp);
 		tmp[struc->precision.number] = '\0';
@@ -86,9 +73,11 @@ int			write_sm(t_struc *struc, char **buf, t_len *len, va_list ap)
 	wchar_t	*tmp_va;
 
 	tmp_va = va_arg(ap, int *);
+	len->null = 0;
 	if (tmp_va == NULL)
 	{
 		tmp = "(null)";
+		len->null = 1;
 		len->len_tmp = ft_strlen(tmp);
 	}
 	else

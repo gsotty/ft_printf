@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 10:42:10 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/09 17:42:01 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/10 11:37:29 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,17 @@ static char	*modif_longeur(t_struc *struc, va_list ap)
 			struc->flag.negatif = 1;
 			tmp = -tmp;
 		}
-		return (ft_intmax_t_itoa_base((intmax_t)tmp, 10));
+		return (ft_uintmax_t_itoa_base((intmax_t)tmp, 10));
 	}
 	else if (struc->lenght.z == 1)
 	{
-		tmp = va_arg(ap, ssize_t);
+		tmp = va_arg(ap, size_t);
 		if (tmp < 0)
 		{
 			struc->flag.negatif = 1;
 			tmp = -tmp;
 		}
-		return (ft_intmax_t_itoa_base((ssize_t)tmp, 10));
+		return (ft_uintmax_t_itoa_base((size_t)tmp, 10));
 	}
 	else
 	{

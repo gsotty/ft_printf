@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 16:53:32 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/09 17:25:32 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/10 14:19:24 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int			write_cm(t_struc *struc, char **buf, t_len *len, va_list ap)
 	char	*tmp;
 	wchar_t	tmp_va;
 
-	tmp_va =  (wchar_t)va_arg(ap, int);
+	tmp_va = (wchar_t)va_arg(ap, int);
 	tmp = ft_strnew(4);
 	len->len_tmp = ft_wctomb(tmp, tmp_va);
 	*buf = ft_remalloc(*buf, len->len_str + 1, len->pos_buf);

@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 13:37:17 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/09 16:35:29 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/10 10:48:46 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 static char	*modif_longeur(t_struc *struc, va_list ap)
 {
 	if (struc->lenght.h == 1)
-		return (ft_unsigned_itoa_base((short)va_arg(ap, intmax_t), 8));
+		return (ft_itoa_base((unsigned short)va_arg(ap, int), 8));
 	else if (struc->lenght.hh == 1)
-		return (ft_unsigned_itoa_base((char)va_arg(ap, intmax_t), 8));
+		return (ft_unsigned_itoa_base((unsigned short)va_arg(ap, int), 8));
 	else if (struc->lenght.l == 1)
-		return (ft_long_itoa_base((long)va_arg(ap, uintmax_t), 8));
+		return (ft_long_itoa_base((unsigned long)va_arg(ap, uintmax_t), 8));
 	else if (struc->lenght.ll == 1)
-		return (ft_intmax_t_itoa_base((long long)va_arg(ap, uintmax_t), 8));
+		return (ft_uintmax_t_itoa_base((long long)va_arg(ap, uintmax_t), 8));
 	else if (struc->lenght.j == 1)
-		return (ft_intmax_t_itoa_base((intmax_t)va_arg(ap, uintmax_t), 8));
+		return (ft_uintmax_t_itoa_base((intmax_t)va_arg(ap, uintmax_t), 8));
 	else if (struc->lenght.z == 1)
-		return (ft_unsigned_itoa_base((size_t)va_arg(ap, intmax_t), 8));
+		return (ft_unsigned_itoa_base((size_t)va_arg(ap, uintmax_t), 8));
 	else
 		return (ft_unsigned_long_itoa_base((unsigned long)va_arg(ap,
 						unsigned long), 8));
@@ -66,6 +66,8 @@ static char	*ft_if_precision(t_struc *struc, char *tmp)
 		tmp_prec[struc->precision.number - ft_strlen(tmp)] = '\0';
 		tmp = ft_strjoin(tmp_prec, tmp);
 	}
+	if (struc->flag.diese == 1)
+		tmp = ft_strjoin("0", tmp);
 	if (struc->width.number > (int)ft_strlen(tmp))
 		tmp = ft_largeur(struc, tmp);
 	return (tmp);
@@ -73,6 +75,8 @@ static char	*ft_if_precision(t_struc *struc, char *tmp)
 
 static char	*ft_if_no_precision(t_struc *struc, char *tmp)
 {
+	if (struc->flag.diese == 1)
+		tmp = ft_strjoin("0", tmp);
 	if (struc->width.number > (int)ft_strlen(tmp))
 		tmp = ft_largeur(struc, tmp);
 	return (tmp);
@@ -83,7 +87,14 @@ int			write_om(t_struc *struc, char **buf, t_len *len, va_list ap)
 	char	*tmp;
 
 	tmp = modif_longeur(struc, ap);
+	if (ft_atoi(tmp) == 0 && (struc->width.number != 0 ||
+				struc->precision.number != -1) && struc->flag.diese != 1)
+		tmp[0] = '\0';
+	if (ft_atoi(tmp) == 0)
+		struc->flag.diese = 0;
 	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp), len->pos_buf);
+	if (struc->flag.diese == 1 && struc->precision.number > 0)
+		struc->precision.number = struc->precision.number - 1;
 	if (struc->precision.number != -1)
 		tmp = ft_if_precision(struc, tmp);
 	else

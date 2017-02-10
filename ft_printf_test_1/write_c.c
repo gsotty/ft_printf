@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 16:53:32 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/09 12:22:08 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/10 12:20:09 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 	tmp_int = struc->width.number - len->len_tmp;
 	if (!(tmp_spaces = (char *)malloc(sizeof(char) * struc->width.number)))
 		return (0);
-	if (struc->flag.zero && (struc->flag.tiret == 0) &&
-			(struc->precision.number == -1))
+	if (struc->flag.zero == 1 && (struc->flag.tiret == 0))
 		tmp_spaces = ft_memset(tmp_spaces, 48, tmp_int);
 	else
 		tmp_spaces = ft_memset(tmp_spaces, 32, tmp_int);
@@ -44,6 +43,11 @@ int			write_c(t_struc *struc, char **buf, t_len *len, va_list ap)
 {
 	char	*tmp;
 
+	if (struc->lenght.l == 1)
+	{
+		write_cm(struc, buf, len, ap);
+		return (0);
+	}
 	tmp = ft_strnew(2);
 	tmp[0] = (char)va_arg(ap, char *);
 	tmp[1] = '\0';

@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 11:43:59 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/09 17:49:29 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/10 12:16:37 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 static char	*modif_longeur(t_struc *struc, va_list ap)
 {
 	if (struc->lenght.h == 1)
-		return (ft_unsigned_itoa_base((short)va_arg(ap, uintmax_t), 8));
+		return (ft_itoa_base((unsigned short)va_arg(ap, int), 8));
 	else if (struc->lenght.hh == 1)
-		return (ft_unsigned_itoa_base((char)va_arg(ap, uintmax_t), 8));
+		return (ft_itoa_base((unsigned char)va_arg(ap, int), 8));
 	else if (struc->lenght.l == 1)
-		return (ft_unsigned_long_itoa_base(va_arg(ap, uintmax_t), 8));
+		return (ft_uintmax_t_itoa_base(va_arg(ap, unsigned long), 8));
 	else if (struc->lenght.ll == 1)
 		return (ft_uintmax_t_itoa_base(va_arg(ap, uintmax_t), 8));
 	else if (struc->lenght.j == 1)
 		return (ft_uintmax_t_itoa_base(va_arg(ap, uintmax_t), 8));
 	else if (struc->lenght.z == 1)
-		return (ft_unsigned_itoa_base((size_t)va_arg(ap, uintmax_t), 8));
+		return (ft_unsigned_long_itoa_base((size_t)va_arg(ap, intmax_t), 8));
 	else
-		return (ft_unsigned_itoa_base(va_arg(ap, unsigned int), 8));
+		return (ft_unsigned_long_itoa_base(va_arg(ap, unsigned int), 8));
 }
 
 static char	*ft_largeur(t_struc *struc, char *tmp)

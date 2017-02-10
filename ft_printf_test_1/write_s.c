@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:38:22 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/09 16:56:11 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/10 15:39:04 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 	tmp_int = struc->width.number - len->len_tmp;
 	if (!(tmp_spaces = (char *)malloc(sizeof(char) * struc->width.number)))
 		return (0);
-	if (struc->flag.zero && (struc->flag.tiret == 0) &&
-			(struc->precision.number == -1))
+	if (struc->flag.zero && (struc->flag.tiret == 0))
 		tmp_spaces = ft_memset(tmp_spaces, 48, tmp_int);
 	else
 		tmp_spaces = ft_memset(tmp_spaces, 32, tmp_int);
@@ -33,7 +32,7 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 	}
 	else
 	{
-		tmp = ft_remalloc(tmp, struc->width.number, tmp_int);
+		tmp_spaces = ft_remalloc(tmp_spaces, struc->width.number, tmp_int);
 		ft_memmove(tmp_spaces + tmp_int, tmp, len->len_tmp);
 		tmp = ft_strdup(tmp_spaces);
 	}
@@ -42,20 +41,7 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 
 static char	*ft_if_precision(t_struc *struc, char *tmp, t_len *len)
 {
-	char	*tmp_prec;
-
-	if (struc->precision.number > len->len_tmp)
-	{
-		if (!(tmp_prec = (char *)malloc(sizeof(char) *
-						struc->precision.number)))
-			return (0);
-		tmp_prec = ft_memset(tmp_prec, 32, struc->precision.number -
-				len->len_tmp);
-		tmp_prec[struc->precision.number - len->len_tmp] = '\0';
-		tmp = ft_strjoin(tmp_prec, tmp);
-		len->len_tmp = struc->precision.number;
-	}
-	else
+	if (struc->precision.number <= len->len_tmp)
 	{
 		tmp = ft_remalloc(tmp, struc->precision.number, len->len_tmp);
 		tmp[struc->precision.number] = '\0';
@@ -83,6 +69,11 @@ int			write_s(t_struc *struc, char **buf, t_len *len, va_list ap)
 {
 	char	*tmp;
 
+	if (struc->lenght.l == 1)
+	{
+		write_sm(struc, buf, len, ap);
+		return (0);
+	}
 	tmp = va_arg(ap, char *);
 	if (tmp == NULL)
 		tmp = "(null)";

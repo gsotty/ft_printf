@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 12:54:05 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/09 15:05:10 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/10 15:15:07 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,7 @@ int			ft_printf(const char *str, ...)
 		return (0);
 	ft_putnstr(buf, len.pos_buf);
 	va_end(ap);
+	if (len.null == 1)
+		len.pos_buf = -1;
 	return (len.pos_buf);
 }

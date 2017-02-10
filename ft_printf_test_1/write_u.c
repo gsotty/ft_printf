@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:14:12 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/09 11:13:01 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/10 12:27:42 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 static char	*modif_longeur(t_struc *struc, va_list ap)
 {
 	if (struc->lenght.h == 1)
-		return (ft_unsigned_itoa((short)va_arg(ap, uintmax_t)));
+		return (ft_unsigned_itoa((unsigned short)va_arg(ap, uintmax_t)));
 	else if (struc->lenght.hh == 1)
-		return (ft_unsigned_itoa((char)va_arg(ap, uintmax_t)));
+		return (ft_unsigned_itoa((unsigned char)va_arg(ap, uintmax_t)));
 	else if (struc->lenght.l == 1)
 		return (ft_unsigned_long_itoa_base((long)va_arg(ap, uintmax_t), 10));
 	else if (struc->lenght.ll == 1)
-		return (ft_intmax_t_itoa_base((long long)va_arg(ap, uintmax_t), 10));
+		return (ft_uintmax_t_itoa_base((long long)va_arg(ap, uintmax_t), 10));
 	else if (struc->lenght.j == 1)
-		return (ft_intmax_t_itoa_base((intmax_t)va_arg(ap, uintmax_t), 10));
+		return (ft_uintmax_t_itoa_base(va_arg(ap, uintmax_t), 10));
 	else if (struc->lenght.z == 1)
-		return (ft_unsigned_itoa_base((size_t)va_arg(ap, uintmax_t), 10));
+		return (ft_unsigned_long_itoa_base((size_t)va_arg(ap, uintmax_t), 10));
 	else
 		return (ft_unsigned_itoa((unsigned int)va_arg(ap, unsigned int)));
 }
@@ -82,6 +82,9 @@ int			write_u(t_struc *struc, char **buf, t_len *len, va_list ap)
 	char	*tmp;
 
 	tmp = modif_longeur(struc, ap);
+	if (ft_atoi(tmp) == 0 && struc->precision.number != -1 &&
+			struc->width.number == 0)
+		tmp[0] = '\0';
 	*buf = ft_remalloc(*buf, len->len_str + ft_strlen(tmp), len->pos_buf);
 	if (struc->precision.number != -1)
 		tmp = ft_if_precision(struc, tmp);
