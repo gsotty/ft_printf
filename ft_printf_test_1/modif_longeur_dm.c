@@ -1,33 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wcslen.c                                        :+:      :+:    :+:   */
+/*   modif_longeur_d_amd_i.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 10:25:08 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/11 15:10:30 by gsotty           ###   ########.fr       */
+/*   Created: 2017/02/10 16:18:48 by gsotty            #+#    #+#             */
+/*   Updated: 2017/02/11 10:37:37 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <wchar.h>
 
-size_t		ft_wcslen(const wchar_t *wcs)
+char		*modif_longeur_dm(t_struc *struc, va_list ap)
 {
-	size_t		converted_char;
-	int			current_char;
-	char		temp[4];
-	int			tmp;
+	intmax_t	tmp;
 
-	tmp = 0;
-	converted_char = 0;
-	while (*wcs)
+	if (struc->lenght.l == 1)
 	{
-		if ((current_char = ft_wctomb(temp, *wcs++)) == -1)
-			return ((size_t)-1);
-		converted_char += current_char;
-		tmp++;
+		tmp = va_arg(ap, long long);
+		if (tmp < 0)
+		{
+			struc->flag.negatif = 1;
+			tmp = -tmp;
+		}
+		return (ft_intmax_t_itoa_base((long long)tmp, 10));
 	}
-	return (converted_char);
+	else
+	{
+		tmp = va_arg(ap, long);
+		if (tmp < 0)
+		{
+			struc->flag.negatif = 1;
+			tmp = -tmp;
+		}
+		return (ft_unsigned_long_itoa_base(tmp, 10));
+	}
 }

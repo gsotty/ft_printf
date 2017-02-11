@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 16:53:32 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/10 12:20:09 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/11 18:07:02 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 		tmp_spaces = ft_memset(tmp_spaces, 48, tmp_int);
 	else
 		tmp_spaces = ft_memset(tmp_spaces, 32, tmp_int);
-	tmp_spaces[struc->width.number - len->len_tmp] = '\0';
+	tmp_spaces[tmp_int] = '\0';
 	if (struc->flag.tiret)
 	{
 		ft_remalloc(tmp, struc->width.number, len->len_tmp);
@@ -45,8 +45,8 @@ int			write_c(t_struc *struc, char **buf, t_len *len, va_list ap)
 
 	if (struc->lenght.l == 1)
 	{
-		write_cm(struc, buf, len, ap);
-		return (0);
+		len->len_tmp = write_cm(struc, buf, len, ap);
+		return (len->len_tmp);
 	}
 	tmp = ft_strnew(2);
 	tmp[0] = (char)va_arg(ap, char *);
@@ -61,7 +61,5 @@ int			write_c(t_struc *struc, char **buf, t_len *len, va_list ap)
 	len->len_str += len->len_tmp;
 	ft_remalloc(*buf, len->len_str, len->pos_buf);
 	ft_memmove(*buf + len->pos_buf, tmp, len->len_tmp);
-	len->pos_buf += len->len_tmp;
-	free(tmp);
-	return (0);
+	return (len->len_tmp);
 }

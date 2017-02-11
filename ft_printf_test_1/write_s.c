@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:38:22 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/10 15:39:04 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/11 19:21:32 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static char	*ft_if_precision(t_struc *struc, char *tmp, t_len *len)
 		tmp = ft_largeur(struc, tmp, len);
 		len->len_tmp = struc->width.number;
 	}
+	len->len_str += len->len_tmp;
 	return (tmp);
 }
 
@@ -62,6 +63,7 @@ static char	*ft_if_no_precision(t_struc *struc, char *tmp, t_len *len)
 		tmp = ft_largeur(struc, tmp, len);
 		len->len_tmp = struc->width.number;
 	}
+	len->len_str += len->len_tmp;
 	return (tmp);
 }
 
@@ -71,8 +73,8 @@ int			write_s(t_struc *struc, char **buf, t_len *len, va_list ap)
 
 	if (struc->lenght.l == 1)
 	{
-		write_sm(struc, buf, len, ap);
-		return (0);
+		len->len_tmp = write_sm(struc, buf, len, ap);
+		return (len->len_tmp);
 	}
 	tmp = va_arg(ap, char *);
 	if (tmp == NULL)
@@ -85,9 +87,7 @@ int			write_s(t_struc *struc, char **buf, t_len *len, va_list ap)
 		tmp = ft_if_precision(struc, tmp, len);
 	else
 		tmp = ft_if_no_precision(struc, tmp, len);
-	len->len_str += len->len_tmp;
 	*buf = ft_remalloc(*buf, len->len_str, len->pos_buf);
 	ft_memmove(*buf + len->pos_buf, tmp, len->len_tmp);
-	len->pos_buf += len->len_tmp;
-	return (0);
+	return (len->len_tmp);
 }

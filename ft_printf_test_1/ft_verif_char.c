@@ -1,33 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wcslen.c                                        :+:      :+:    :+:   */
+/*   ft_verif_char.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 10:25:08 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/11 15:10:30 by gsotty           ###   ########.fr       */
+/*   Created: 2017/02/11 13:48:52 by gsotty            #+#    #+#             */
+/*   Updated: 2017/02/11 13:56:26 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <wchar.h>
 
-size_t		ft_wcslen(const wchar_t *wcs)
+int		ft_verif_char(int c)
 {
-	size_t		converted_char;
-	int			current_char;
-	char		temp[4];
-	int			tmp;
-
-	tmp = 0;
-	converted_char = 0;
-	while (*wcs)
-	{
-		if ((current_char = ft_wctomb(temp, *wcs++)) == -1)
-			return ((size_t)-1);
-		converted_char += current_char;
-		tmp++;
-	}
-	return (converted_char);
+	if (('0' <= c && c <= '9') || c == '#' || c == '0' || c == '-'
+			|| c == '+' || c == ' ' || c == 'l' || c == 'j'
+			|| c == 'z' || c == 'h' || c == '.')
+		return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 10:40:26 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/10 16:19:43 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/11 14:11:13 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void				*ft_bzero(void *s, size_t n);
 char				*ft_strnew(size_t size);
 void				ft_putstr(char *str);
 void				ft_putnstr(char *str, size_t n);
+int					ft_verif_char(int c);
 char				*ft_itoa(int n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
 void				*ft_memalloc(size_t size);
@@ -119,7 +120,8 @@ char				*ft_intmax_t_itoa_base(intmax_t n, int base);
 char				*ft_intmax_t_itoa_base_m(intmax_t n, int base);
 char				*ft_uintmax_t_itoa_base_m(uintmax_t n, int base);
 char				*ft_remalloc(char *dest, int len_d, int len_s);
-int					check_specifier(t_struc *struc, const char *str, int z);
+int					check_specifier(t_struc *struc, const char *str, int z,
+		int test);
 int					check_flag(t_struc *struc, const char *str, int z, int y);
 int					check_width(t_struc *struc, const char *str, int z, int y);
 size_t				ft_wcsnlen(const wchar_t *wcs, size_t n);
@@ -130,6 +132,7 @@ void				*ft_memmove(void *dest, const void *src, size_t n);
 char				*modif_longeur_x(t_struc *struc, va_list ap);
 char				*modif_longeur_xm(t_struc *struc, va_list ap);
 char				*modif_longeur_d_and_i(t_struc *struc, va_list ap);
+char				*modif_longeur_dm(t_struc *struc, va_list ap);
 int					check_precision(t_struc *struc, const char *str,
 		int z, int y);
 int					check_lenght(t_struc *struc, const char *str,

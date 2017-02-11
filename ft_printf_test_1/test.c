@@ -5,16 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/31 16:45:05 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/10 15:41:24 by gsotty           ###   ########.fr       */
+/*   Created: 2017/02/11 14:04:54 by gsotty            #+#    #+#             */
+/*   Updated: 2017/02/11 18:30:27 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdio.h>
+#include <wchar.h>
+#include <locale.h>
 
 int		main(void)
 {
+	setlocale(LC_ALL, "");
+	printf("p%lc, %lc\n", L'暖', L'ح');
+	ft_printf("f%lc, %lc\n", L'暖', L'ح');
+	printf("p%.4ls\n", L"我是一只猫。");
+	ft_printf("f%.4S\n", L"我是一只猫。");
+	printf("p%15.4ls\n", L"我是一只猫。");
+	ft_printf("f%15.4S\n", L"我是一只猫。");
 	ft_printf("\n");
 	ft_printf("%%\n");
 	ft_printf("%d\n", 42);
@@ -37,6 +46,7 @@ int		main(void)
 	ft_printf("%U\n", 4294967295);
 	ft_printf("%u\n", 4294967295);
 	ft_printf("%o\n", 40);
+	ft_printf("%O\n", 40);
 	ft_printf("%%#08x\n", 42);
 	ft_printf("%x\n", 1000);
 	ft_printf("%#X\n", 1000);
