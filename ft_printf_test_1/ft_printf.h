@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 10:40:26 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/11 14:11:13 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/13 10:00:31 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void				*ft_memalloc(size_t size);
 void				ft_putnbr(int nb);
 void				ft_putchar(char c);
 char				*ft_strdup(char *src);
+char				*ft_flag(char *tmp, t_len *len, char *str);
 char				*ft_itoa_int_min(int n);
 char				*ft_itoa_base(int n, int base);
 char				*ft_itoa_base_m(int n, int base);
