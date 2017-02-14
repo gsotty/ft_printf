@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 16:53:32 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/11 18:07:02 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/14 10:40:29 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 		ft_memmove(tmp_spaces + tmp_int, tmp, len->len_tmp);
 		tmp = ft_strdup(tmp_spaces);
 	}
+	free(tmp_spaces);
 	return (tmp);
 }
 
@@ -61,5 +62,6 @@ int			write_c(t_struc *struc, char **buf, t_len *len, va_list ap)
 	len->len_str += len->len_tmp;
 	ft_remalloc(*buf, len->len_str, len->pos_buf);
 	ft_memmove(*buf + len->pos_buf, tmp, len->len_tmp);
+	free(tmp);
 	return (len->len_tmp);
 }

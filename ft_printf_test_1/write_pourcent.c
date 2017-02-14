@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 09:57:16 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/11 17:51:41 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/14 10:48:39 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 		ft_memmove(tmp_spaces + tmp_int, tmp, len->len_tmp);
 		tmp = ft_strdup(tmp_spaces);
 	}
+	free(tmp_spaces);
 	return (tmp);
 }
 
@@ -55,5 +56,6 @@ int			write_pourcent(t_struc *struc, char **buf, t_len *len)
 	len->len_str += len->len_tmp;
 	ft_remalloc(*buf, len->len_str, len->pos_buf);
 	ft_memmove(*buf + len->pos_buf, tmp, len->len_tmp);
+	free(tmp);
 	return (len->len_tmp);
 }

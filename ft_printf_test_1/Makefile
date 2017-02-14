@@ -6,7 +6,7 @@
 #    By: gsotty <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/03 15:44:40 by gsotty            #+#    #+#              #
-#    Updated: 2017/02/13 09:53:53 by gsotty           ###   ########.fr        #
+#    Updated: 2017/02/14 10:06:14 by gsotty           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRC = check_flag.c check_lenght.c check_precision.c check_specifier.c \
 	  ft_wcsnlen.c ft_wctomb.c ft_memmove.c ft_putnstr.c ft_itoa_base_m.c \
 	  ft_uintmax_t_itoa_base_m.c ft_unsigned_char_itoa_base.c \
 	  modif_longeur_x.c modif_longeur_xm.c modif_longeur_d_and_i.c \
-	  modif_longeur_dm.c ft_verif_char.c ft_flag.c
+	  modif_longeur_dm.c ft_verif_char.c write_no_specifier.c
 
 OBJ = $(SRC:.c=.o)
 

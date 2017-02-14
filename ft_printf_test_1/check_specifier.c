@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 09:33:05 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/11 14:11:20 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/14 10:14:30 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,16 @@ static int	check_specifier_4(t_struc *struc, const char *str, int z)
 		struc->specifier.pourcent = 1;
 		return (z);
 	}
-	else if (ft_verif_char(str[z]) == 0)
-		return (-1);
+	else if ((struc->specifier.no_specifier = ft_verif_char(str[z])))
+	{
+		struc->specifier.c_str = str[z];
+		return (z);
+	}
 	return (0);
 }
 
 static int	check_specifier_3(t_struc *struc, const char *str, int z)
 {
-	int		test;
-
-	test = 0;
 	if (str[z] == 'U')
 	{
 		struc->specifier.um = 1;
@@ -54,18 +54,13 @@ static int	check_specifier_3(t_struc *struc, const char *str, int z)
 		struc->specifier.om = 1;
 		return (z);
 	}
-	else if ((test = check_specifier_4(struc, str, z)) == -1)
-		return (-1);
-	else if (test != 0)
+	else if (check_specifier_4(struc, str, z) != 0)
 		return (z);
 	return (0);
 }
 
 static int	check_specifier_2(t_struc *struc, const char *str, int z)
 {
-	int		test;
-
-	test = 0;
 	if (str[z] == 's')
 	{
 		struc->specifier.s = 1;
@@ -81,18 +76,13 @@ static int	check_specifier_2(t_struc *struc, const char *str, int z)
 		struc->specifier.u = 1;
 		return (z);
 	}
-	else if ((test = check_specifier_3(struc, str, z)) == -1)
-		return (-1);
-	else if (test != 0)
+	else if (check_specifier_3(struc, str, z) != 0)
 		return (z);
 	return (0);
 }
 
 static int	check_specifier_1(t_struc *struc, const char *str, int z)
 {
-	int		test;
-
-	test = 0;
 	if (str[z] == 'D')
 	{
 		struc->specifier.dm = 1;
@@ -108,14 +98,12 @@ static int	check_specifier_1(t_struc *struc, const char *str, int z)
 		struc->specifier.o = 1;
 		return (z);
 	}
-	else if ((test = check_specifier_2(struc, str, z)) == -1)
-		return (-1);
-	else if (test != 0)
+	else if (check_specifier_2(struc, str, z) != 0)
 		return (z);
 	return (0);
 }
 
-int			check_specifier(t_struc *struc, const char *str, int z, int test)
+int			check_specifier(t_struc *struc, const char *str, int z)
 {
 	while (str[z] != '\0')
 	{
@@ -134,9 +122,7 @@ int			check_specifier(t_struc *struc, const char *str, int z, int test)
 			struc->specifier.d = 1;
 			return (z);
 		}
-		else if ((test = check_specifier_1(struc, str, z)) == -1)
-			return (z - 1);
-		else if (test != 0)
+		else if (check_specifier_1(struc, str, z) != 0)
 			return (z);
 		z++;
 	}

@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 10:40:26 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/13 10:00:31 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/14 10:06:39 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ typedef struct		s_specifier
 	unsigned int	xm : 1;
 	unsigned int	p : 1;
 	unsigned int	pourcent : 1;
+	unsigned int	no_specifier : 1;
+	char			c_str;
 }					t_specifier;
 
 typedef struct		s_struc
@@ -105,7 +107,6 @@ void				*ft_memalloc(size_t size);
 void				ft_putnbr(int nb);
 void				ft_putchar(char c);
 char				*ft_strdup(char *src);
-char				*ft_flag(char *tmp, t_len *len, char *str);
 char				*ft_itoa_int_min(int n);
 char				*ft_itoa_base(int n, int base);
 char				*ft_itoa_base_m(int n, int base);
@@ -121,8 +122,7 @@ char				*ft_intmax_t_itoa_base(intmax_t n, int base);
 char				*ft_intmax_t_itoa_base_m(intmax_t n, int base);
 char				*ft_uintmax_t_itoa_base_m(uintmax_t n, int base);
 char				*ft_remalloc(char *dest, int len_d, int len_s);
-int					check_specifier(t_struc *struc, const char *str, int z,
-		int test);
+int					check_specifier(t_struc *struc, const char *str, int z);
 int					check_flag(t_struc *struc, const char *str, int z, int y);
 int					check_width(t_struc *struc, const char *str, int z, int y);
 size_t				ft_wcsnlen(const wchar_t *wcs, size_t n);
@@ -165,5 +165,6 @@ int					write_c(t_struc *struc, char **buf, t_len *len,
 		va_list ap);
 int					write_cm(t_struc *struc, char **buf, t_len *len,
 		va_list ap);
+int					write_no_specifier(t_struc *struc, char **buf, t_len *len);
 
 #endif

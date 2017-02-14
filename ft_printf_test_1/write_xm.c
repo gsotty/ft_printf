@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 13:55:26 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/11 18:03:47 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/14 10:56:06 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 		ft_memmove(tmp_spaces + tmp_int, tmp, len->len_tmp);
 		tmp = ft_strdup(tmp_spaces);
 	}
+	free(tmp_spaces);
 	return (tmp);
 }
 
@@ -46,6 +47,7 @@ static char	*ft_if_precision(t_struc *struc, char *tmp, t_len *len)
 	char	*tmp_prec;
 
 	tmp_char = NULL;
+	tmp_prec = NULL;
 	if (struc->precision.number > len->len_tmp)
 	{
 		if (!(tmp_prec = (char *)malloc(sizeof(char) *
@@ -71,6 +73,8 @@ static char	*ft_if_precision(t_struc *struc, char *tmp, t_len *len)
 		len->len_tmp = struc->width.number;
 	}
 	len->len_str += len->len_tmp;
+	free(tmp_char);
+	free(tmp_prec);
 	return (tmp);
 }
 
@@ -93,6 +97,7 @@ static char	*ft_if_no_precision(t_struc *struc, char *tmp, t_len *len)
 		len->len_tmp = struc->width.number;
 	}
 	len->len_str += len->len_tmp;
+	free(tmp_char);
 	return (tmp);
 }
 
@@ -121,5 +126,6 @@ int			write_xm(t_struc *struc, char **buf, t_len *len, va_list ap)
 		tmp = ft_if_no_precision(struc, tmp, len);
 	ft_remalloc(*buf, len->len_str, len->pos_buf);
 	ft_memmove(*buf + len->pos_buf, tmp, len->len_tmp);
+	free(tmp);
 	return (len->len_tmp);
 }

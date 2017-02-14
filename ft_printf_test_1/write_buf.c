@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 09:49:55 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/11 19:20:15 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/14 10:10:05 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ static int	write_buf_4(t_struc *struc, char **buf, t_len *len, va_list ap)
 	if (struc->specifier.pourcent == 1)
 	{
 		len->pos_buf += write_pourcent(struc, buf, len);
+		return (1);
+	}
+	if (struc->specifier.no_specifier == 1)
+	{
+		len->pos_buf += write_no_specifier(struc, buf, len);
 		return (1);
 	}
 	return (0);
