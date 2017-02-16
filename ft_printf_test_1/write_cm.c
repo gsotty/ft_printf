@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 16:53:32 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/14 10:41:21 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/16 16:01:04 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 	return (tmp);
 }
 
-int			write_cm(t_struc *struc, char **buf, t_len *len, va_list ap)
+char		*write_cm(t_struc *struc, char *buf, t_len *len, va_list ap)
 {
 	char	*tmp;
 	wchar_t	tmp_va;
@@ -50,15 +50,16 @@ int			write_cm(t_struc *struc, char **buf, t_len *len, va_list ap)
 	tmp_va = (wchar_t)va_arg(ap, int);
 	tmp = ft_strnew(4);
 	len->len_tmp = ft_wctomb(tmp, tmp_va);
-	*buf = ft_remalloc(*buf, len->len_str + 1, len->pos_buf);
+	buf = ft_remalloc(buf, len->pos_buf + len->len_tmp, len->pos_buf);
 	if (struc->width.number > len->len_tmp)
 	{
 		tmp = ft_largeur(struc, tmp, len);
 		len->len_tmp = struc->width.number;
 	}
 	len->len_str += len->len_tmp;
-	ft_remalloc(*buf, len->len_str, len->pos_buf);
-	ft_memmove(*buf + len->pos_buf, tmp, len->len_tmp);
+	buf = ft_remalloc(buf, len->pos_buf + len->len_tmp, len->pos_buf);
+	ft_memmove(buf + len->pos_buf, tmp, len->len_tmp);
+	len->pos_buf += len->len_tmp;
 	free(tmp);
-	return (len->len_tmp);
+	return (buf);
 }

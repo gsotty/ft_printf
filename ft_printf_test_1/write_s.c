@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:38:22 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/14 10:50:10 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/16 16:13:29 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 	tmp_int = struc->width.number - len->len_tmp;
 	if (!(tmp_spaces = (char *)malloc(sizeof(char) * struc->width.number)))
 		return (0);
-	if (struc->flag.zero && (struc->flag.tiret == 0))
-		tmp_spaces = ft_memset(tmp_spaces, 48, tmp_int);
+	if (struc->flag.zero && (struc->flag.tiret == 0) &&
+			struc->precision.number <= 0)
+		ft_memset(tmp_spaces, 48, tmp_int);
 	else
-		tmp_spaces = ft_memset(tmp_spaces, 32, tmp_int);
+		ft_memset(tmp_spaces, 32, tmp_int);
 	tmp_spaces[struc->width.number - len->len_tmp] = '\0';
 	if (struc->flag.tiret)
 	{
@@ -34,7 +35,8 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 	{
 		tmp_spaces = ft_remalloc(tmp_spaces, struc->width.number, tmp_int);
 		ft_memmove(tmp_spaces + tmp_int, tmp, len->len_tmp);
-		tmp = ft_strdup(tmp_spaces);
+		tmp = ft_memalloc(struc->width.number);
+		ft_memcpy(tmp, tmp_spaces, struc->width.number);
 	}
 	free(tmp_spaces);
 	return (tmp);
@@ -42,6 +44,9 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 
 static char	*ft_if_precision(t_struc *struc, char *tmp, t_len *len)
 {
+	char	*tmp_char;
+
+	tmp_char = NULL;
 	if (struc->precision.number <= len->len_tmp)
 	{
 		tmp = ft_remalloc(tmp, struc->precision.number, len->len_tmp);
@@ -68,28 +73,41 @@ static char	*ft_if_no_precision(t_struc *struc, char *tmp, t_len *len)
 	return (tmp);
 }
 
-int			write_s(t_struc *struc, char **buf, t_len *len, va_list ap)
+char		*write_s(t_struc *struc, char *buf, t_len *len, va_list ap)
 {
 	char	*tmp;
+	char	*tmp_va;
 
+	tmp  = NULL;
 	if (struc->lenght.l == 1)
 	{
-		len->len_tmp = write_sm(struc, buf, len, ap);
-		return (len->len_tmp);
+		buf = write_sm(struc, buf, len, ap);
+		return (buf);
 	}
-	tmp = va_arg(ap, char *);
-	if (tmp == NULL)
-		tmp = "(null)";
-	len->len_tmp = ft_strlen(tmp);
+	tmp_va = va_arg(ap, char *);
+	if (tmp_va == NULL)
+	{
+		tmp = ft_memalloc(7);
+		ft_memcpy(tmp, "(null)", 7);
+		len->len_tmp = 6;
+	}
+	else
+	{
+		tmp = ft_memalloc(ft_strlen(tmp_va));
+		ft_memcpy(tmp, tmp_va, ft_strlen(tmp_va));
+		tmp[ft_strlen(tmp_va)] = '\0';
+		len->len_tmp = ft_strlen(tmp);
+	}
 	if (tmp[0] == '\0')
 		struc->precision.number = -1;
-	*buf = ft_remalloc(*buf, len->len_str + len->len_tmp, len->pos_buf);
 	if (struc->precision.number != -1)
 		tmp = ft_if_precision(struc, tmp, len);
 	else
 		tmp = ft_if_no_precision(struc, tmp, len);
-	*buf = ft_remalloc(*buf, len->len_str, len->pos_buf);
-	ft_memmove(*buf + len->pos_buf, tmp, len->len_tmp);
-//	free(tmp);
-	return (len->len_tmp);
+	buf = ft_remalloc(buf, len->pos_buf + len->len_tmp, len->pos_buf);
+	buf = ft_remalloc(buf, len->pos_buf + len->len_tmp, len->pos_buf);
+	ft_memcpy(buf + len->pos_buf, tmp, len->len_tmp);
+	len->pos_buf += len->len_tmp;
+	free(tmp);
+	return (buf);
 }

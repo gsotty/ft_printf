@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:14:12 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/14 10:52:14 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/16 13:53:32 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static char	*ft_if_no_precision(t_struc *struc, char *tmp, t_len *len)
 	return (tmp);
 }
 
-int			write_u(t_struc *struc, char **buf, t_len *len, va_list ap)
+char		*write_u(t_struc *struc, char *buf, t_len *len, va_list ap)
 {
 	char	*tmp;
 
@@ -105,13 +105,13 @@ int			write_u(t_struc *struc, char **buf, t_len *len, va_list ap)
 	if (ft_atoi(tmp) == 0 && struc->precision.number != -1 &&
 			struc->width.number == 0)
 		len->len_tmp = 0;
-	*buf = ft_remalloc(*buf, len->len_str + len->len_tmp, len->pos_buf);
 	if (struc->precision.number != -1)
 		tmp = ft_if_precision(struc, tmp, len);
 	else
 		tmp = ft_if_no_precision(struc, tmp, len);
-	ft_remalloc(*buf, len->len_str, len->pos_buf);
-	ft_memmove(*buf + len->pos_buf, tmp, len->len_tmp);
+	buf = ft_remalloc(buf, len->len_str, len->pos_buf);
+	ft_memmove(buf + len->pos_buf, tmp, len->len_tmp);
+	len->pos_buf += len->len_tmp;
 	free(tmp);
-	return (len->len_tmp);
+	return (buf);
 }

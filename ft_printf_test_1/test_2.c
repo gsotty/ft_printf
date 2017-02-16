@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/14 10:26:12 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/14 10:27:20 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/16 16:58:44 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,7 @@ int		main(void)
 	ft_printf("%s%s\n", "test", "test");
 	ft_printf("%s%s%s\n", "test", "test", "test");
 	ft_printf("%C\n", 15000);
+	/*
+	*/
 	return (0);
 }

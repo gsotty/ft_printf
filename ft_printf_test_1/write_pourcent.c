@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 09:57:16 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/14 10:48:39 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/16 11:41:45 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 	return (tmp);
 }
 
-int			write_pourcent(t_struc *struc, char **buf, t_len *len)
+char		*write_pourcent(t_struc *struc, char *buf, t_len *len)
 {
 	char	*tmp;
 
@@ -54,8 +54,9 @@ int			write_pourcent(t_struc *struc, char **buf, t_len *len)
 		len->len_tmp = struc->width.number;
 	}
 	len->len_str += len->len_tmp;
-	ft_remalloc(*buf, len->len_str, len->pos_buf);
-	ft_memmove(*buf + len->pos_buf, tmp, len->len_tmp);
+	buf = ft_remalloc(buf, len->len_str, len->pos_buf);
+	ft_memmove(buf + len->pos_buf, tmp, len->len_tmp);
+	len->pos_buf += len->len_tmp;
 	free(tmp);
-	return (len->len_tmp);
+	return (buf);
 }

@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/11 14:04:54 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/11 18:30:27 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/16 16:44:58 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,44 @@
 int		main(void)
 {
 	setlocale(LC_ALL, "");
+	printf("% ");
+	ft_printf("% ");
+	printf("% h");
+	ft_printf("% Z");
+	printf("% Z");
+	ft_printf("% h");
+	printf("p{%05.S}\n", 0);
+	ft_printf("f{%05.S}\n", 0);
+	printf("p%C%C\n", '4', '2');
+	ft_printf("f%C%C\n", '4', '2');
 	printf("p%lc, %lc\n", L'暖', L'ح');
 	ft_printf("f%lc, %lc\n", L'暖', L'ح');
 	printf("p%.4ls\n", L"我是一只猫。");
 	ft_printf("f%.4S\n", L"我是一只猫。");
 	printf("p%15.4ls\n", L"我是一只猫。");
 	ft_printf("f%15.4S\n", L"我是一只猫。");
+	printf("p{%03c}\n", 0);
+	ft_printf("f{%03c}\n", 0);
+	printf("p{%-15Z}\n", 123);
+	ft_printf("f{%-15Z}\n", 123);
+	printf("p%#o\n", 42);
+	ft_printf("f%#o\n", 42);
+	printf("p.%%.%%.%%.%%.%%.%%.%%.%%.\n");
+	ft_printf("f.%%.%%.%%.%%.%%.%%.%%.%%.\n");
+	printf("%");
+	ft_printf("%");
+	printf("p%p\n", 42);
+	ft_printf("f%p\n", 42);
+	printf("p%#X\n", 42);
+	ft_printf("f%#X\n", 42);
+	printf("p%#x\n", 42);
+	ft_printf("f%#x\n", 42);
+	printf("p%#O\n", 42);
+	ft_printf("f%#O\n", 42);
+	printf("p%#o\n", 42);
+	ft_printf("f%#o\n", 42);
+	printf("p{%030x}\n", 0xFFFF);
+	ft_printf("f{%030x}\n", 0xFFFF);
 	ft_printf("\n");
 	ft_printf("%%\n");
 	ft_printf("%d\n", 42);

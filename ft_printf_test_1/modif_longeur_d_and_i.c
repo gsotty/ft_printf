@@ -6,16 +6,14 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/11 17:45:17 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/11 17:45:19 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/15 14:04:06 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static char	*modif_longeur_3(t_struc *struc, va_list ap)
+static char	*modif_longeur_3(t_struc *struc, va_list ap, intmax_t tmp)
 {
-	intmax_t	tmp;
-
 	if (struc->lenght.z == 1)
 	{
 		tmp = va_arg(ap, size_t);
@@ -24,6 +22,8 @@ static char	*modif_longeur_3(t_struc *struc, va_list ap)
 			struc->flag.negatif = 1;
 			tmp = -tmp;
 		}
+		if (tmp == 0)
+			struc->flag.nbr_zero = 1;
 		return (ft_uintmax_t_itoa_base((size_t)tmp, 10));
 	}
 	else
@@ -34,14 +34,14 @@ static char	*modif_longeur_3(t_struc *struc, va_list ap)
 			struc->flag.negatif = 1;
 			tmp = -tmp;
 		}
+		if (tmp == 0)
+			struc->flag.nbr_zero = 1;
 		return (ft_uintmax_t_itoa_base((size_t)tmp, 10));
 	}
 }
 
-static char	*modif_longeur_2(t_struc *struc, va_list ap)
+static char	*modif_longeur_2(t_struc *struc, va_list ap, intmax_t tmp)
 {
-	intmax_t	tmp;
-
 	if (struc->lenght.l == 1)
 	{
 		tmp = va_arg(ap, long);
@@ -50,15 +50,27 @@ static char	*modif_longeur_2(t_struc *struc, va_list ap)
 			struc->flag.negatif = 1;
 			tmp = -tmp;
 		}
+		if (tmp == 0)
+			struc->flag.nbr_zero = 1;
 		return (ft_unsigned_long_itoa_base((long)tmp, 10));
 	}
-	return (modif_longeur_3(struc, ap));
+	else if (struc->lenght.hh == 1)
+	{
+		tmp = (char)va_arg(ap, int);
+		if (tmp < 0)
+		{
+			struc->flag.negatif = 1;
+			tmp = -tmp;
+		}
+		if (tmp == 0)
+			struc->flag.nbr_zero = 1;
+		return (ft_itoa(tmp));
+	}
+	return (modif_longeur_3(struc, ap, 0));
 }
 
-static char	*modif_longeur_1(t_struc *struc, va_list ap)
+static char	*modif_longeur_1(t_struc *struc, va_list ap, intmax_t tmp)
 {
-	intmax_t	tmp;
-
 	if (struc->lenght.ll == 1)
 	{
 		tmp = va_arg(ap, long long);
@@ -67,6 +79,8 @@ static char	*modif_longeur_1(t_struc *struc, va_list ap)
 			struc->flag.negatif = 1;
 			tmp = -tmp;
 		}
+		if (tmp == 0)
+			struc->flag.nbr_zero = 1;
 		return (ft_uintmax_t_itoa_base(tmp, 10));
 	}
 	else if (struc->lenght.j == 1)
@@ -77,15 +91,18 @@ static char	*modif_longeur_1(t_struc *struc, va_list ap)
 			struc->flag.negatif = 1;
 			tmp = -tmp;
 		}
+		if (tmp == 0)
+			struc->flag.nbr_zero = 1;
 		return (ft_uintmax_t_itoa_base(tmp, 10));
 	}
-	return (modif_longeur_2(struc, ap));
+	return (modif_longeur_2(struc, ap, 0));
 }
 
 char		*modif_longeur_d_and_i(t_struc *struc, va_list ap)
 {
 	intmax_t	tmp;
 
+	tmp = 0;
 	if (struc->lenght.h == 1)
 	{
 		tmp = (short)va_arg(ap, int);
@@ -94,17 +111,9 @@ char		*modif_longeur_d_and_i(t_struc *struc, va_list ap)
 			struc->flag.negatif = 1;
 			tmp = -tmp;
 		}
+		if (tmp == 0)
+			struc->flag.nbr_zero = 1;
 		return (ft_itoa(tmp));
 	}
-	else if (struc->lenght.hh == 1)
-	{
-		tmp = (char)va_arg(ap, int);
-		if (tmp < 0)
-		{
-			struc->flag.negatif = 1;
-			tmp = -tmp;
-		}
-		return (ft_itoa(tmp));
-	}
-	return (modif_longeur_1(struc, ap));
+	return (modif_longeur_1(struc, ap, 0));
 }

@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 09:33:05 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/14 10:14:30 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/15 11:16:22 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,7 @@
 
 static int	check_specifier_4(t_struc *struc, const char *str, int z)
 {
-	if (str[z] == 'x')
-	{
-		struc->specifier.x = 1;
-		return (z);
-	}
-	else if (str[z] == 'X')
+	if (str[z] == 'X')
 	{
 		struc->specifier.xm = 1;
 		return (z);
@@ -52,6 +47,11 @@ static int	check_specifier_3(t_struc *struc, const char *str, int z)
 	else if (str[z] == 'O')
 	{
 		struc->specifier.om = 1;
+		return (z);
+	}
+	else if (str[z] == 'x')
+	{
+		struc->specifier.x = 1;
 		return (z);
 	}
 	else if (check_specifier_4(struc, str, z) != 0)

@@ -6,21 +6,27 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/22 12:57:47 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/09 11:05:24 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/16 14:29:22 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdlib.h>
 
+#include <stdio.h>
+
 char	*ft_remalloc(char *dest, int len_d, int len_s)
 {
 	char	*tmp;
 
+	if (len_d < len_s)
+		return (dest);
 	if (!(tmp = (char *)malloc(sizeof(char) * len_d)))
 		return (NULL);
 	tmp = ft_memset(tmp, len_d, 0);
 	tmp = ft_memcpy(tmp, dest, len_s);
+	free(dest);
+	dest = NULL;
 	if (!(dest = (char *)malloc(sizeof(char) * len_d)))
 		return (NULL);
 	dest = ft_memset(dest, len_d, 0);

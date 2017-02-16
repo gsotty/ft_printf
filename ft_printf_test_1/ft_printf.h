@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 10:40:26 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/14 10:06:39 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/16 15:38:13 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct		s_flag
 	unsigned int	diese : 1;
 	unsigned int	zero : 1;
 	unsigned int	negatif : 1;
+	unsigned int	nbr_zero : 1;
 }					t_flag;
 
 typedef struct		s_width
@@ -89,7 +90,7 @@ typedef struct		s_len
 }					t_len;
 
 int					ft_printf(const char *str, ...);
-int					write_buf(t_struc *struc, char **buf, t_len *len,
+char				*write_buf(t_struc *struc, char *buf, t_len *len,
 		va_list ap);
 int					ft_atoi(char *nptr);
 void				*ft_memset(void *s, int c, size_t n);
@@ -107,6 +108,8 @@ void				*ft_memalloc(size_t size);
 void				ft_putnbr(int nb);
 void				ft_putchar(char c);
 char				*ft_strdup(char *src);
+char				*ft_flag_1(char *tmp, t_len *len, char *str,
+		size_t len_str);
 char				*ft_itoa_int_min(int n);
 char				*ft_itoa_base(int n, int base);
 char				*ft_itoa_base_m(int n, int base);
@@ -138,33 +141,33 @@ int					check_precision(t_struc *struc, const char *str,
 		int z, int y);
 int					check_lenght(t_struc *struc, const char *str,
 		int z, int y);
-int					write_d_and_i(t_struc *struc, char **buf, t_len *len,
+char				*write_d_and_i(t_struc *struc, char *buf, t_len *len,
 		va_list ap);
-int					write_pourcent(t_struc *struc, char **buf, t_len *len);
-int					write_o(t_struc *struc, char **buf, t_len *len,
+char				*write_pourcent(t_struc *struc, char *buf, t_len *len);
+char				*write_o(t_struc *struc, char *buf, t_len *len,
 		va_list ap);
-int					write_om(t_struc *struc, char **buf, t_len *len,
+char				*write_om(t_struc *struc, char *buf, t_len *len,
 		va_list ap);
-int					write_x(t_struc *struc, char **buf, t_len *len,
+char				*write_x(t_struc *struc, char *buf, t_len *len,
 		va_list ap);
-int					write_xm(t_struc *struc, char **buf, t_len *len,
+char				*write_xm(t_struc *struc, char *buf, t_len *len,
 		va_list ap);
-int					write_u(t_struc *struc, char **buf, t_len *len,
+char				*write_u(t_struc *struc, char *buf, t_len *len,
 		va_list ap);
-int					write_dm(t_struc *struc, char **buf, t_len *len,
+char				*write_dm(t_struc *struc, char *buf, t_len *len,
 		va_list ap);
-int					write_p(t_struc *struc, char **buf, t_len *len,
+char				*write_p(t_struc *struc, char *buf, t_len *len,
 		va_list ap);
-int					write_um(t_struc *struc, char **buf, t_len *len,
+char				*write_um(t_struc *struc, char *buf, t_len *len,
 		va_list ap);
-int					write_s(t_struc *struc, char **buf, t_len *len,
+char				*write_s(t_struc *struc, char *buf, t_len *len,
 		va_list ap);
-int					write_sm(t_struc *struc, char **buf, t_len *len,
+char				*write_sm(t_struc *struc, char *buf, t_len *len,
 		va_list ap);
-int					write_c(t_struc *struc, char **buf, t_len *len,
+char				*write_c(t_struc *struc, char *buf, t_len *len,
 		va_list ap);
-int					write_cm(t_struc *struc, char **buf, t_len *len,
+char				*write_cm(t_struc *struc, char *buf, t_len *len,
 		va_list ap);
-int					write_no_specifier(t_struc *struc, char **buf, t_len *len);
+char				*write_no_specifier(t_struc *struc, char *buf, t_len *len);
 
 #endif
