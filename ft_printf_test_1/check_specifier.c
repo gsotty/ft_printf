@@ -6,125 +6,132 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 09:33:05 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/15 11:16:22 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/21 15:07:07 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	check_specifier_4(t_struc *struc, const char *str, int z)
+static int	check_specifier_4(t_struc *struc, const char *str, int z,
+		int *verif)
 {
 	if (str[z] == 'X')
 	{
 		struc->specifier.xm = 1;
-		return (z);
+		*verif = 1;
 	}
 	else if (str[z] == 'p')
 	{
 		struc->specifier.p = 1;
-		return (z);
+		*verif = 1;
 	}
 	else if (str[z] == '%')
 	{
 		struc->specifier.pourcent = 1;
-		return (z);
+		*verif = 1;
 	}
-	else if ((struc->specifier.no_specifier = ft_verif_char(str[z])))
+	else if ((struc->specifier.no_specifier = ft_verif_char(str[z])) == 1)
 	{
 		struc->specifier.c_str = str[z];
-		return (z);
+		*verif = 1;
 	}
-	return (0);
+	return (z);
 }
 
-static int	check_specifier_3(t_struc *struc, const char *str, int z)
+static int	check_specifier_3(t_struc *struc, const char *str, int z,
+		int *verif)
 {
 	if (str[z] == 'U')
 	{
 		struc->specifier.um = 1;
-		return (z);
+		*verif = 1;
 	}
 	else if (str[z] == 'O')
 	{
 		struc->specifier.om = 1;
-		return (z);
+		*verif = 1;
 	}
 	else if (str[z] == 'x')
 	{
 		struc->specifier.x = 1;
-		return (z);
+		*verif = 1;
 	}
-	else if (check_specifier_4(struc, str, z) != 0)
-		return (z);
-	return (0);
+	z = check_specifier_4(struc, str, z, verif);
+	return (z);
 }
 
-static int	check_specifier_2(t_struc *struc, const char *str, int z)
+static int	check_specifier_2(t_struc *struc, const char *str, int z,
+		int *verif)
 {
 	if (str[z] == 's')
 	{
 		struc->specifier.s = 1;
-		return (z);
+		*verif = 1;
 	}
 	else if (str[z] == 'S')
 	{
 		struc->specifier.sm = 1;
-		return (z);
+		*verif = 1;
 	}
 	else if (str[z] == 'u')
 	{
 		struc->specifier.u = 1;
-		return (z);
+		*verif = 1;
 	}
-	else if (check_specifier_3(struc, str, z) != 0)
-		return (z);
-	return (0);
+	z = check_specifier_3(struc, str, z, verif);
+	return (z);
 }
 
-static int	check_specifier_1(t_struc *struc, const char *str, int z)
+static int	check_specifier_1(t_struc *struc, const char *str, int z,
+		int *verif)
 {
-	if (str[z] == 'D')
+	if (str[z] == 'd')
+	{
+		struc->specifier.d = 1;
+		*verif = 1;
+	}
+	else if (str[z] == 'D')
 	{
 		struc->specifier.dm = 1;
-		return (z);
+		*verif = 1;
 	}
 	else if (str[z] == 'i')
 	{
 		struc->specifier.i = 1;
-		return (z);
+		*verif = 1;
 	}
 	else if (str[z] == 'o')
 	{
 		struc->specifier.o = 1;
-		return (z);
+		*verif = 1;
 	}
-	else if (check_specifier_2(struc, str, z) != 0)
-		return (z);
-	return (0);
+	z = check_specifier_2(struc, str, z, verif);
+	return (z);
 }
 
 int			check_specifier(t_struc *struc, const char *str, int z)
 {
+	int		tmp_z;
+	int		verif;
+
+	verif = 0;
+	tmp_z = z;
 	while (str[z] != '\0')
 	{
 		if (str[z] == 'c')
 		{
 			struc->specifier.c = 1;
-			return (z);
+			verif = 1;
 		}
 		else if (str[z] == 'C')
 		{
 			struc->specifier.cm = 1;
-			return (z);
+			verif = 1;
 		}
-		else if (str[z] == 'd')
-		{
-			struc->specifier.d = 1;
-			return (z);
-		}
-		else if (check_specifier_1(struc, str, z) != 0)
+		z = check_specifier_1(struc, str, z, &verif);
+		if (verif == 1)
 			return (z);
 		z++;
 	}
-	return (0);
+	return (tmp_z - 1);
 }

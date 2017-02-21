@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:38:22 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/16 16:09:06 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/21 09:56:21 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 	char	*tmp_spaces;
 
 	tmp_int = struc->width.number - len->len_tmp;
-	if (!(tmp_spaces = (char *)malloc(sizeof(char) * struc->width.number)))
-		return (0);
+	tmp_spaces = ft_memalloc(sizeof(char) * struc->width.number);
 	if (struc->flag.zero && (struc->flag.tiret == 0) &&
 			(struc->precision.number <= 0))
 		ft_memset(tmp_spaces, 48, tmp_int);
@@ -70,7 +69,7 @@ static char	*ft_if_no_precision(t_struc *struc, char *tmp, t_len *len)
 	return (tmp);
 }
 
-char		*write_sm(t_struc *struc, char *buf, t_len *len, va_list ap)
+static char	*conv_char(t_struc *struc, va_list ap, t_len *len)
 {
 	size_t	x;
 	char	*tmp;
@@ -92,6 +91,14 @@ char		*write_sm(t_struc *struc, char *buf, t_len *len, va_list ap)
 		tmp = ft_memalloc(x);
 		len->len_tmp = ft_wcstombs(tmp, tmp_va, x);
 	}
+	return (tmp);
+}
+
+char		*write_sm(t_struc *struc, char *buf, t_len *len, va_list ap)
+{
+	char	*tmp;
+
+	tmp = conv_char(struc, ap, len);
 	if (tmp[0] == '\0')
 		struc->precision.number = -1;
 	if (struc->precision.number != -1)

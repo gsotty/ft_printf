@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:38:22 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/16 16:13:29 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/21 10:01:03 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
 	char	*tmp_spaces;
 
 	tmp_int = struc->width.number - len->len_tmp;
-	if (!(tmp_spaces = (char *)malloc(sizeof(char) * struc->width.number)))
-		return (0);
+	tmp_spaces = ft_memalloc(sizeof(char) * struc->width.number);
 	if (struc->flag.zero && (struc->flag.tiret == 0) &&
 			struc->precision.number <= 0)
 		ft_memset(tmp_spaces, 48, tmp_int);
@@ -73,17 +72,11 @@ static char	*ft_if_no_precision(t_struc *struc, char *tmp, t_len *len)
 	return (tmp);
 }
 
-char		*write_s(t_struc *struc, char *buf, t_len *len, va_list ap)
+static char	*conv_char(va_list ap, t_len *len)
 {
 	char	*tmp;
 	char	*tmp_va;
 
-	tmp  = NULL;
-	if (struc->lenght.l == 1)
-	{
-		buf = write_sm(struc, buf, len, ap);
-		return (buf);
-	}
 	tmp_va = va_arg(ap, char *);
 	if (tmp_va == NULL)
 	{
@@ -98,6 +91,20 @@ char		*write_s(t_struc *struc, char *buf, t_len *len, va_list ap)
 		tmp[ft_strlen(tmp_va)] = '\0';
 		len->len_tmp = ft_strlen(tmp);
 	}
+	return (tmp);
+}
+
+char		*write_s(t_struc *struc, char *buf, t_len *len, va_list ap)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	if (struc->lenght.l == 1)
+	{
+		buf = write_sm(struc, buf, len, ap);
+		return (buf);
+	}
+	tmp = conv_char(ap, len);
 	if (tmp[0] == '\0')
 		struc->precision.number = -1;
 	if (struc->precision.number != -1)

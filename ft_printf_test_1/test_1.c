@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 12:54:05 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/16 13:32:47 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/21 15:06:31 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,10 @@ static char	*verif_line(t_len *len, const char *str, char *buf, va_list ap)
 		if (str[len->pos_str] == '%' && (y = len->pos_str + 1))
 		{
 			ft_bzero(&struc, sizeof(t_struc));
-			if ((len->pos_str = check_specifier(&struc, str, len->pos_str + 1)))
-			{
-				verif_line_2(&struc, str, len->pos_str, y);
-				buf = write_buf(&struc, buf, len, ap);
-				len->pos_str++;
-			}
-			else
-			{
-				buf = ft_no_pourcent(len, str, buf);
-				len->pos_buf--;
-			}
+			len->pos_str = check_specifier(&struc, str, len->pos_str + 1);
+			verif_line_2(&struc, str, len->pos_str, y);
+			buf = write_buf(&struc, buf, len, ap);
+			len->pos_str++;
 		}
 		else
 			buf = ft_no_pourcent(len, str, buf);

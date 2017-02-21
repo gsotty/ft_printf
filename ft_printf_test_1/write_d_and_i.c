@@ -6,18 +6,16 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 10:42:10 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/16 13:43:00 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/21 10:29:35 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
+static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len, int tmp_int)
 {
-	int		tmp_int;
 	char	*tmp_spaces;
 
-	tmp_int = struc->width.number - len->len_tmp;
 	if (!(tmp_spaces = (char *)malloc(sizeof(char) * struc->width.number)))
 		return (0);
 	if ((struc->flag.zero == 1) && (struc->flag.tiret == 0) &&
@@ -71,7 +69,7 @@ static char	*ft_if_precision(t_struc *struc, char *tmp, t_len *len)
 	}
 	tmp = ft_flag(struc, tmp, len);
 	if (struc->width.number > len->len_tmp)
-		tmp = ft_largeur(struc, tmp, len);
+		tmp = ft_largeur(struc, tmp, len, struc->width.number - len->len_tmp);
 	len->len_str += len->len_tmp;
 	free(tmp_prec);
 	return (tmp);
@@ -81,7 +79,7 @@ static char	*ft_if_no_precision(t_struc *struc, char *tmp, t_len *len)
 {
 	tmp = ft_flag(struc, tmp, len);
 	if (struc->width.number > len->len_tmp)
-		tmp = ft_largeur(struc, tmp, len);
+		tmp = ft_largeur(struc, tmp, len, struc->width.number - len->len_tmp);
 	len->len_str += len->len_tmp;
 	return (tmp);
 }
@@ -91,13 +89,12 @@ char		*write_d_and_i(t_struc *struc, char *buf, t_len *len, va_list ap)
 	char	*tmp;
 
 	tmp = modif_longeur_d_and_i(struc, ap);
-	len->len_tmp = ft_strlen(tmp);
+	if (!(struc->flag.nbr_zero == 1 && struc->precision.number != -1
+				&& struc->width.number == 0))
+		len->len_tmp = ft_strlen(tmp);
 	if (struc->flag.nbr_zero == 1 && struc->precision.number != -1
 				&& struc->width.number != 0 && struc->flag.zero != 1)
 		tmp[0] = ' ';
-	if (struc->flag.nbr_zero == 1 && struc->precision.number != -1
-				&& struc->width.number == 0)
-		len->len_tmp = 0;
 	if (struc->flag.zero == 1 && (struc->flag.plus == 1 || struc->flag.espace
 				== 1 || struc->flag.negatif == 1) && struc->width.number > 0
 			&& struc->precision.number == -1 && struc->flag.tiret == 0)

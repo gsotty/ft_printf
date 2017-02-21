@@ -6,18 +6,16 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 10:42:10 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/16 15:34:13 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/21 10:11:42 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len)
+static char	*ft_largeur(t_struc *struc, char *tmp, t_len *len, int tmp_int)
 {
-	int		tmp_int;
 	char	*tmp_spaces;
 
-	tmp_int = struc->width.number - len->len_tmp;
 	if (!(tmp_spaces = (char *)malloc(sizeof(char) * struc->width.number)))
 		return (0);
 	if (struc->flag.zero && (struc->flag.tiret == 0) &&
@@ -58,6 +56,7 @@ static char	*ft_if_precision(t_struc *struc, char *tmp, t_len *len)
 {
 	char	*tmp_prec;
 
+	len->len_tmp = ft_strlen(tmp);
 	tmp_prec = NULL;
 	if (struc->precision.number > len->len_tmp)
 	{
@@ -71,7 +70,7 @@ static char	*ft_if_precision(t_struc *struc, char *tmp, t_len *len)
 	}
 	tmp = ft_flag(struc, tmp, len);
 	if (struc->width.number > len->len_tmp)
-		tmp = ft_largeur(struc, tmp, len);
+		tmp = ft_largeur(struc, tmp, len, struc->width.number - len->len_tmp);
 	len->len_str += len->len_tmp;
 	free(tmp_prec);
 	return (tmp);
@@ -79,10 +78,10 @@ static char	*ft_if_precision(t_struc *struc, char *tmp, t_len *len)
 
 static char	*ft_if_no_precision(t_struc *struc, char *tmp, t_len *len)
 {
-
+	len->len_tmp = ft_strlen(tmp);
 	tmp = ft_flag(struc, tmp, len);
 	if (struc->width.number > len->len_tmp)
-		tmp = ft_largeur(struc, tmp, len);
+		tmp = ft_largeur(struc, tmp, len, struc->width.number - len->len_tmp);
 	len->len_str += len->len_tmp;
 	return (tmp);
 }
@@ -92,7 +91,6 @@ char		*write_dm(t_struc *struc, char *buf, t_len *len, va_list ap)
 	char	*tmp;
 
 	tmp = modif_longeur_dm(struc, ap);
-	len->len_tmp = ft_strlen(tmp);
 	if (ft_atoi(tmp) == 0 && struc->precision.number != -1
 			&& struc->width.number != 0 && struc->flag.zero != 1)
 		tmp[0] = ' ';

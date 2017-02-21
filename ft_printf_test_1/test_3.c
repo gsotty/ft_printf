@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_verif_char.c                                    :+:      :+:    :+:   */
+/*   test_3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/11 13:48:52 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/21 11:45:21 by gsotty           ###   ########.fr       */
+/*   Created: 2017/02/21 10:38:39 by gsotty            #+#    #+#             */
+/*   Updated: 2017/02/21 14:32:05 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
 
-int		ft_verif_char(int c)
+int		main(void)
 {
-	if (('0' <= c && c <= '9') || c == '#' || c == '0' || c == '-'
-			|| c == '+' || c == ' ' || c == 'l' || c == 'j'
-			|| c == 'z' || c == 'h' || c == '.' || c == 'c'
-			|| c == 'C' || c == 'd' || c == 'D' || c == 'i'
-			|| c == 'o' || c == 's' || c == 'S' || c == 'u'
-			|| c == 'U' || c == 'O' || c == 'x' || c == 'X'
-			|| c == 'p' || c == '%')
-		return (0);
-	return (1);
+	ft_printf("% h\n");
+	ft_printf("%Z\n");
+	ft_printf("%05%\n");
+	ft_printf("%-05%\n");
+	ft_printf("%\n");
+	ft_printf("% \n");
+	ft_printf("% hZ\n");
+	ft_printf("% hZ%\n");
+	ft_printf("% 10Z\n", "test");
+	ft_printf("% Z \n", "test");
+	ft_printf("% Z%s\n", "test");
+	ft_printf("%000   %\n", "test");
+	ft_printf("%%%\n", "test");
+	ft_printf("%%   %\n", "test");
 }

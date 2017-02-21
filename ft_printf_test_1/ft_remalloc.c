@@ -6,7 +6,7 @@
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/22 12:57:47 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/16 14:29:22 by gsotty           ###   ########.fr       */
+/*   Updated: 2017/02/21 11:05:26 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_remalloc(char *dest, int len_d, int len_s)
 {
 	char	*tmp;
 
-	if (len_d < len_s)
+	if (len_d <= len_s)
 		return (dest);
 	if (!(tmp = (char *)malloc(sizeof(char) * len_d)))
 		return (NULL);
