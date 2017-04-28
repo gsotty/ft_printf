@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tapperce <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/21 14:04:42 by tapperce          #+#    #+#             */
-/*   Updated: 2017/02/07 13:54:02 by gsotty           ###   ########.fr       */
+/*   Created: 2017/02/21 15:31:39 by gsotty            #+#    #+#             */
+/*   Updated: 2017/02/21 15:31:47 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdlib.h>
 
 static int	nb_len(int n)
 {

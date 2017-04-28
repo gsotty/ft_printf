@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_unsigned_itoa.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/09 09:58:58 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/08 09:08:55 by gsotty           ###   ########.fr       */
+/*   Created: 2017/02/21 15:38:32 by gsotty            #+#    #+#             */
+/*   Updated: 2017/02/21 15:38:34 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdlib.h>
 
 char		*ft_unsigned_itoa(unsigned int n)
 {
-	long	nbr;
-	int		i;
-	char	*tab;
+	unsigned int	nbr;
+	int				i;
+	char			*tab;
 
 	i = 2;
 	nbr = n;

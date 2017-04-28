@@ -5,21 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/05 10:30:46 by gsotty            #+#    #+#             */
-/*   Updated: 2017/02/08 10:04:08 by gsotty           ###   ########.fr       */
+/*   Created: 2017/02/21 15:35:05 by gsotty            #+#    #+#             */
+/*   Updated: 2017/02/21 15:35:08 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <unistd.h>
 
 void	ft_putnstr(char *str, size_t n)
 {
-	size_t	x;
-
-	x = 0;
-	while (x < n)
-	{
-		ft_putchar(str[x]);
-		x++;
-	}
+	write(1, str, n);
 }

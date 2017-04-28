@@ -5,13 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/20 09:58:01 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/21 14:50:01 by gsotty           ###   ########.fr       */
+/*   Created: 2017/02/21 15:32:00 by gsotty            #+#    #+#             */
+/*   Updated: 2017/02/21 15:32:04 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdlib.h>
 
 static size_t	ft_intlen_base(unsigned int n, int base)
 {

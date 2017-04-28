@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unsigned_itoa_base_M.c                          :+:      :+:    :+:   */
+/*   ft_unsigned_itoa_base_m.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/20 11:47:28 by gsotty            #+#    #+#             */
-/*   Updated: 2017/01/21 14:33:36 by gsotty           ###   ########.fr       */
+/*   Created: 2017/02/21 15:39:28 by gsotty            #+#    #+#             */
+/*   Updated: 2017/02/21 15:39:30 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdlib.h>
 
 static size_t	ft_intlen_base(unsigned int n, int base)
 {

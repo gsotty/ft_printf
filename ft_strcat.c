@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tapperce <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gsotty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/09 16:03:10 by tapperce          #+#    #+#             */
-/*   Updated: 2016/11/10 13:18:36 by tapperce         ###   ########.fr       */
+/*   Created: 2017/02/21 15:36:11 by gsotty            #+#    #+#             */
+/*   Updated: 2017/02/21 15:36:25 by gsotty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "ft_printf.h"
 
 char	*ft_strcat(char *dest, const char *src)
 {
